@@ -269,7 +269,6 @@ MonoBehaviour:
   maxJetpackVerticalVelocity: 10
   maxJetpackHorizontalVelocity: 10
   gravityScale: 3
-  particleSystem: {fileID: 1379048891}
 --- !u!114 &770903932
 MonoBehaviour:
   m_ObjectHideFlags: 0

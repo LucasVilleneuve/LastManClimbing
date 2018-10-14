@@ -21,11 +21,10 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] private float gravityScale = 3f;
     [SerializeField] [Range (30, 100)] private readonly float jetpackForce = 40f;
 
-    [SerializeField] private ParticleSystem particleSystem = null;
-
     // Components
     private Rigidbody2D rb;
     private CharacterController2D controller;
+    private new ParticleSystem particleSystem; // In children
 
     // Private fields
     private float horizontalInput = 0f;
@@ -36,7 +35,7 @@ public class PlayerMovement : MonoBehaviour {
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        //particleSystem = GetComponent<ParticleSystem>();
+        particleSystem = GetComponentInChildren<ParticleSystem>();
         controller = GetComponent<CharacterController2D>();
         PlayJetpackEmission(false);
 
