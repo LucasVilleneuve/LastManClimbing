@@ -2,6 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public static class ExtensionMethods
+{
+    // Remap value
+    public static float Remap(this float value, float from1, float to1, float from2, float to2)
+    {
+        return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
+    }
+}
+
 public class PlayerMovement : MonoBehaviour {
 
     // Serialized fields
@@ -10,14 +19,16 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] private float maxJetpackVerticalVelocity = 10.0f; // Max vertical velocity while using jetpack.
     [SerializeField] private float maxJetpackHorizontalVelocity = 10.0f; // Max horizontal velocity while using jetpack.
     [SerializeField] private float gravityScale = 3f;
-    [SerializeField] [Range (30, 100)] private float jetpackForce = 40f;
+    [SerializeField] [Range (30, 100)] private readonly float jetpackForce = 40f;
+
+    [SerializeField] private ParticleSystem particleSystem = null;
 
     // Components
     private Rigidbody2D rb;
-    private ParticleSystem ps;
     private CharacterController2D controller;
 
     // Private fields
+    private float horizontalInput = 0f;
     private float horizontalMovement = 0f;
     private float verticalMovement = 0f;
     private bool usingJetpack = false;
@@ -25,13 +36,13 @@ public class PlayerMovement : MonoBehaviour {
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        ps = GetComponent<ParticleSystem>();
+        //particleSystem = GetComponent<ParticleSystem>();
         controller = GetComponent<CharacterController2D>();
-        //PlayJetpackEmission(false);
+        PlayJetpackEmission(false);
 
         if (usingJetpack)
         {
-            rb.gravityScale = 3;
+            rb.gravityScale = gravityScale;
         }
         else
         {
@@ -41,7 +52,8 @@ public class PlayerMovement : MonoBehaviour {
 
     void Update()
     {
-        horizontalMovement = Input.GetAxis("Horizontal");
+        horizontalInput = Input.GetAxis("Horizontal");
+        horizontalMovement = horizontalInput;
         // TODO  Which is better ?
         //horizontalMovement = Input.GetAxisRaw("Horizontal");
 
@@ -53,23 +65,14 @@ public class PlayerMovement : MonoBehaviour {
         {
             horizontalMovement *= jetpackHSpeed;
             verticalMovement = 0;
+            PlayJetpackEmission();
         }
         else
         {
             horizontalMovement *= climbingSpeed;
             verticalMovement *= climbingSpeed;
+            PlayJetpackEmission(false);
         }
-
-        //if (Input.GetKeyDown("space"))
-        //{
-        //    usingJetpack = !usingJetpack;
-        //    rb.gravityScale = usingJetpack ? 1 : 0;
-
-        //    if (!usingJetpack)
-        //    {
-        //        rb.velocity = Vector3.zero;
-        //    }
-        //}
     }
 
     void FixedUpdate ()
@@ -89,55 +92,27 @@ public class PlayerMovement : MonoBehaviour {
                 verticalMovement * Time.fixedDeltaTime);
         }
 
-        //float moveHorizontal = Input.GetAxis("Horizontal");
-        //float moveVertical = Input.GetAxis("Vertical");
-
-        //if (usingJetpack) // Jetpack movement
-        //{
-        //    if (moveVertical > 0.0f)
-        //    {
-        //        PlayJetpackEmission();
-
-        //        var x = moveHorizontal * jetpackHSpeed;
-        //        var y = moveVertical * jetpackVSpeed;
-
-        //        rb.AddForce(new Vector2(x, y));
-
-        //        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxJetpackVelocity);
-
-        //    }
-        //    else
-        //    {
-        //        PlayJetpackEmission(false);
-        //    }
-
-        //}
-        //else // Climbing movement
-        //{
-        //    var x = moveHorizontal * Time.deltaTime * climbingSpeed;
-        //    var y = moveVertical * Time.deltaTime * climbingSpeed;
-
-        //    transform.Translate(x, y, 0);
-        //}
+        // Rotate Jetpack emission by emitting in the opposite direction of the player velocity
+        float newRotAngle = rb.velocity.x.Remap(-10.0f, 10.0f, 45.0f, 135.0f);
+        Quaternion target = Quaternion.Euler(newRotAngle, 90.0f, 90.0f);
+        particleSystem.transform.rotation = Quaternion.Slerp(particleSystem.transform.rotation, target, Time.deltaTime * 5.0f);
     }
 
     void    PlayJetpackEmission(bool play = true)
     {
-        //if (!play)
-        //{
-        //    if (ps.isPlaying)
-        //    {
-        //        Debug.Log("Stopping emission");
-        //        ps.Stop();
-        //    }
-        //}
-        //else
-        //{
-        //    if (!ps.isEmitting)
-        //    {
-        //        Debug.Log("Play emission");
-        //        ps.Play();
-        //    }
-        //}
+        if (!play)
+        {
+            if (particleSystem.isPlaying)
+            {
+                particleSystem.Stop();
+            }
+        }
+        else
+        {
+            if (!particleSystem.isEmitting)
+            {
+                particleSystem.Play();
+            }
+        }
     }
 }
