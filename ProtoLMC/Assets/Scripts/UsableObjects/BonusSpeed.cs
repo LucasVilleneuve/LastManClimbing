@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BonusSpeed : MonoBehaviour {
 
-    [SerializeField] private readonly float speedBonusValue = 10f;
+    [SerializeField] private float speedBonusValue = 10f;
 
     // Use this for initialization
     void Start () {
@@ -25,7 +25,7 @@ public class BonusSpeed : MonoBehaviour {
             PlayerMovement playerMovement = entity.GetComponent<PlayerMovement>();
 
             playerMovement.climbingSpeed += this.speedBonusValue;
-            playerMovement.maxJetpackVerticalVelocity += this.speedBonusValue;
+            playerMovement.jetpackVAcceleration += this.speedBonusValue;
             Destroy(gameObject);
         }
     }
