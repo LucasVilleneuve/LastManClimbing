@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lava : MonoBehaviour {
+public class Lava : MonoBehaviour
+{
+    [SerializeField] private GameRules gameRules;
 
-    void OnTriggerEnter2D(Collider2D collider)
+    private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.tag.Equals("Player"))
         {
-            Debug.Log("Player touched lava floor");
+            string pName = collider.gameObject.name;
+            Debug.Log(pName + " touched lava floor");
+            gameRules.UpdateNbPlayersAlive(pName);
+            Destroy(collider.gameObject);
         }
     }
 }

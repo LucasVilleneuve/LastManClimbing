@@ -11,28 +11,29 @@ public static class ExtensionMethods
     }
 }
 
-public class PlayerMovement : MonoBehaviour {
-
-    // Serialized fields
+public class PlayerMovement : MonoBehaviour
+{
+    /* Serialized fields */
+    [SerializeField] [Range(1, 4)] private int playerId = 1;
     [SerializeField] private float climbingSpeed = 5.0f;
     [SerializeField] private float jetpackHSpeed = 25.0f;
-    [SerializeField] private float maxJetpackVerticalVelocity = 10.0f; // Max vertical velocity while using jetpack.
-    [SerializeField] private float maxJetpackHorizontalVelocity = 10.0f; // Max horizontal velocity while using jetpack.
+    [SerializeField] private float maxJetpackVerticalVelocity = 10.0f; // Max vertical velocity while using jet pack.
+    [SerializeField] private float maxJetpackHorizontalVelocity = 10.0f; // Max horizontal velocity while using jet pack.
     [SerializeField] private float gravityScale = 3f;
-    [SerializeField] [Range (30, 100)] private readonly float jetpackForce = 40f;
+    [SerializeField] [Range(30, 100)] private readonly float jetpackForce = 40f;
 
-    // Components
+    /* Components */
     private Rigidbody2D rb;
     private CharacterController2D controller;
     private new ParticleSystem particleSystem; // In children
 
-    // Private fields
+    /* Private fields */
     private float horizontalInput = 0f;
     private float horizontalMovement = 0f;
     private float verticalMovement = 0f;
     private bool usingJetpack = false;
 
-    void Awake()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         particleSystem = GetComponentInChildren<ParticleSystem>();
@@ -49,16 +50,15 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
-    void Update()
+    private void Update()
     {
-        horizontalInput = Input.GetAxis("Horizontal");
+        horizontalInput = Input.GetAxis(GetInputNameForPlayer("Horizontal"));
         horizontalMovement = horizontalInput;
         // TODO  Which is better ?
         //horizontalMovement = Input.GetAxisRaw("Horizontal");
 
-        verticalMovement = Input.GetAxis("Vertical");
-
-        usingJetpack = Input.GetButton("Jetpack");
+        verticalMovement = Input.GetAxis(GetInputNameForPlayer("Vertical"));
+        usingJetpack = Input.GetButton(GetInputNameForPlayer("Jetpack"));
 
         if (usingJetpack)
         {
@@ -74,7 +74,7 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
-    void FixedUpdate ()
+    private void FixedUpdate()
     {
         if (usingJetpack)
         {
@@ -91,13 +91,13 @@ public class PlayerMovement : MonoBehaviour {
                 verticalMovement * Time.fixedDeltaTime);
         }
 
-        // Rotate Jetpack emission by emitting in the opposite direction of the player velocity
+        // Rotate jet pack emission by emitting in the opposite direction of the player velocity
         float newRotAngle = rb.velocity.x.Remap(-10.0f, 10.0f, 45.0f, 135.0f);
         Quaternion target = Quaternion.Euler(newRotAngle, 90.0f, 90.0f);
         particleSystem.transform.rotation = Quaternion.Slerp(particleSystem.transform.rotation, target, Time.deltaTime * 5.0f);
     }
 
-    void    PlayJetpackEmission(bool play = true)
+    private void PlayJetpackEmission(bool play = true)
     {
         if (!play)
         {
@@ -113,5 +113,10 @@ public class PlayerMovement : MonoBehaviour {
                 particleSystem.Play();
             }
         }
+    }
+
+    private string GetInputNameForPlayer(string input)
+    {
+        return input + "_P" + playerId.ToString();
     }
 }
