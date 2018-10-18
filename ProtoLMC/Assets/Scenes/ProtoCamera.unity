@@ -161,9 +161,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerId: 2
   climbingSpeed: 20
-  jetpackHSpeed: 50
+  jetpackVAcceleration: 25
+  jetpackHAcceleration: 25
   maxJetpackVerticalVelocity: 10
-  maxJetpackHorizontalVelocity: 10
+  maxJetpackHorizontalVelocity: 20
   gravityScale: 3
 --- !u!114 &595822467
 MonoBehaviour:
@@ -328,7 +329,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &730765095
 Transform:
   m_ObjectHideFlags: 0
@@ -458,9 +459,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerId: 1
   climbingSpeed: 20
-  jetpackHSpeed: 50
+  jetpackVAcceleration: 25
+  jetpackHAcceleration: 25
   maxJetpackVerticalVelocity: 10
-  maxJetpackHorizontalVelocity: 10
+  maxJetpackHorizontalVelocity: 20
   gravityScale: 3
 --- !u!114 &770903932
 MonoBehaviour:

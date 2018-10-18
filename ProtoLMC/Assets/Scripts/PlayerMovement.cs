@@ -15,12 +15,12 @@ public class PlayerMovement : MonoBehaviour
 {
     /* Serialized fields */
     [SerializeField] [Range(1, 4)] private int playerId = 1;
-    [SerializeField] public float climbingSpeed = 5.0f;
-    [SerializeField] public float jetpackHSpeed = 25.0f;
+    [SerializeField] [Range(0, 50)] public float climbingSpeed = 5.0f;
+    [SerializeField] [Range(0, 100)] public float jetpackVAcceleration = 10.0f;
+    [SerializeField] [Range(0, 100)] public float jetpackHAcceleration = 10.0f;
     [SerializeField] public float maxJetpackVerticalVelocity = 10.0f; // Max vertical velocity while using jet pack.
     [SerializeField] public float maxJetpackHorizontalVelocity = 10.0f; // Max horizontal velocity while using jet pack.
-    [SerializeField] private float gravityScale = 3f;
-    [SerializeField] [Range(30, 100)] public float jetpackForce = 40f;
+    [SerializeField] private float gravityScale = 3.0f;
 
     /* Components */
     private Rigidbody2D rb;
@@ -52,17 +52,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        horizontalInput = Input.GetAxis(GetInputNameForPlayer("Horizontal"));
+        horizontalInput = Input.GetAxis(GetInputNameForPlayer("Direction X"));
         horizontalMovement = horizontalInput;
         // TODO  Which is better ?
         //horizontalMovement = Input.GetAxisRaw("Horizontal");
 
-        verticalMovement = Input.GetAxis(GetInputNameForPlayer("Vertical"));
-        usingJetpack = Input.GetButton(GetInputNameForPlayer("Jetpack"));
+        verticalMovement = Input.GetAxis(GetInputNameForPlayer("Direction Y"));
+        usingJetpack = Input.GetButton(GetInputNameForPlayer("LT"));
 
         if (usingJetpack)
         {
-            horizontalMovement *= jetpackHSpeed;
+            horizontalMovement *= jetpackHAcceleration;
             verticalMovement = 0;
             PlayJetpackEmission();
         }
@@ -79,11 +79,10 @@ public class PlayerMovement : MonoBehaviour
         if (usingJetpack)
         {
             // Player movement
-            rb.AddForce(new Vector2(horizontalMovement, jetpackForce));
+            rb.AddForce(new Vector2(horizontalMovement, jetpackVAcceleration));
 
             // Clamp vertical velocity to no go too fast
-            rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maxJetpackHorizontalVelocity, maxJetpackHorizontalVelocity),
-                Mathf.Clamp(rb.velocity.y, -maxJetpackVerticalVelocity, maxJetpackVerticalVelocity));
+            rb.velocity = ClampVelocity(rb.velocity);
         }
         else // Climbing
         {
@@ -117,6 +116,33 @@ public class PlayerMovement : MonoBehaviour
 
     private string GetInputNameForPlayer(string input)
     {
-        return input + "_P" + playerId.ToString();
+        return "Joystick " + playerId.ToString() + " " + input;
+    }
+
+    // Returned a clamp vector2 by checking if the velocity is within the maxVelocity range.
+    private Vector2 ClampVelocity(Vector2 velocity)
+
+    {
+        Vector2 newVelocity = velocity;
+
+        if (rb.velocity.y > maxJetpackVerticalVelocity)
+        {
+            newVelocity.y = maxJetpackVerticalVelocity;
+        }
+        else if (rb.velocity.y < -maxJetpackVerticalVelocity)
+        {
+            newVelocity.y = -maxJetpackVerticalVelocity;
+        }
+
+        if (rb.velocity.x > maxJetpackHorizontalVelocity)
+        {
+            newVelocity.x = maxJetpackHorizontalVelocity;
+        }
+        else if (rb.velocity.x < -maxJetpackHorizontalVelocity)
+        {
+            newVelocity.x = -maxJetpackHorizontalVelocity;
+        }
+
+        return newVelocity;
     }
 }
