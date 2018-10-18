@@ -15,12 +15,12 @@ public class PlayerMovement : MonoBehaviour
 {
     /* Serialized fields */
     [SerializeField] [Range(1, 4)] private int playerId = 1;
-    [SerializeField] private float climbingSpeed = 5.0f;
-    [SerializeField] private float jetpackHSpeed = 25.0f;
-    [SerializeField] private float maxJetpackVerticalVelocity = 10.0f; // Max vertical velocity while using jet pack.
-    [SerializeField] private float maxJetpackHorizontalVelocity = 10.0f; // Max horizontal velocity while using jet pack.
+    [SerializeField] public float climbingSpeed = 5.0f;
+    [SerializeField] public float jetpackHSpeed = 25.0f;
+    [SerializeField] public float maxJetpackVerticalVelocity = 10.0f; // Max vertical velocity while using jet pack.
+    [SerializeField] public float maxJetpackHorizontalVelocity = 10.0f; // Max horizontal velocity while using jet pack.
     [SerializeField] private float gravityScale = 3f;
-    [SerializeField] [Range(30, 100)] private readonly float jetpackForce = 40f;
+    [SerializeField] [Range(30, 100)] public float jetpackForce = 40f;
 
     /* Components */
     private Rigidbody2D rb;
