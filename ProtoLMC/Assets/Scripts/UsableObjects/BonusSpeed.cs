@@ -2,31 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BonusSpeed : MonoBehaviour {
+public class BonusSpeed : CollectableObject {
 
     [SerializeField] private float speedBonusValue = 10f;
+    [SerializeField] private int bonusDuration = 3;
 
-    // Use this for initialization
     void Start () {
-		
-	}
+        this.realtimeBeforeDestruction = this.bonusDuration;
+        this.actionOnTriggerEnter = GiveBonusToPlayer;
+        this.actionBeforeDestruction = ResumeBonusToPlayer;
+    }
 	
-	// Update is called once per frame
+	
 	void Update () {
 		
 	}
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    void GiveBonusToPlayer(GameObject entity)
     {
-        GameObject entity = collision.gameObject;
+        PlayerMovement playerMovement = entity.GetComponent<PlayerMovement>();
 
-        if (entity.tag == "Player")
-        {
-            PlayerMovement playerMovement = entity.GetComponent<PlayerMovement>();
+        this.ApplyBonusToPlayer(playerMovement, this.speedBonusValue);
+    }
 
-            playerMovement.climbingSpeed += this.speedBonusValue;
-            playerMovement.jetpackVAcceleration += this.speedBonusValue;
-            Destroy(gameObject);
-        }
+    void ResumeBonusToPlayer(GameObject entity)
+    {
+        PlayerMovement playerMovement = entity.GetComponent<PlayerMovement>();
+        
+        this.ApplyBonusToPlayer(playerMovement, -this.speedBonusValue);
+    }
+
+    void    ApplyBonusToPlayer(PlayerMovement playerMovement, float speedBonusValue)
+    {
+        playerMovement.climbingSpeed += speedBonusValue;
+        playerMovement.jetpackVAcceleration += speedBonusValue;
+        playerMovement.maxJetpackVerticalVelocity += speedBonusValue;
+        playerMovement.jetpackHAcceleration += speedBonusValue;
+        playerMovement.maxJetpackHorizontalVelocity += speedBonusValue;
     }
 }
