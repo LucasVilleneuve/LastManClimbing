@@ -21,11 +21,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public float maxJetpackVerticalVelocity = 10.0f; // Max vertical velocity while using jet pack.
     [SerializeField] public float maxJetpackHorizontalVelocity = 10.0f; // Max horizontal velocity while using jet pack.
     [SerializeField] private float gravityScale = 3.0f;
+    [SerializeField] private Animator jetpackAnimator;
+    [SerializeField] private GameObject jetpackPivot;
 
     /* Components */
     private Rigidbody2D rb;
     private CharacterController2D controller;
-    private new ParticleSystem particleSystem; // In children
+    //private new ParticleSystem particleSystem; // In children
 
     /* Private fields */
     private float horizontalInput = 0f;
@@ -36,9 +38,9 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        particleSystem = GetComponentInChildren<ParticleSystem>();
+        //particleSystem = GetComponentInChildren<ParticleSystem>();
         controller = GetComponent<CharacterController2D>();
-        PlayJetpackEmission(false);
+        jetpackAnimator.SetBool("useJetpack", false);
 
         if (usingJetpack)
         {
@@ -64,13 +66,13 @@ public class PlayerMovement : MonoBehaviour
         {
             horizontalMovement *= jetpackHAcceleration;
             verticalMovement = 0;
-            PlayJetpackEmission();
+            jetpackAnimator.SetBool("useJetpack", true);
         }
         else
         {
             horizontalMovement *= climbingSpeed;
             verticalMovement *= climbingSpeed;
-            PlayJetpackEmission(false);
+            jetpackAnimator.SetBool("useJetpack", false);
         }
     }
 
@@ -91,28 +93,28 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Rotate jet pack emission by emitting in the opposite direction of the player velocity
-        float newRotAngle = rb.velocity.x.Remap(-10.0f, 10.0f, 45.0f, 135.0f);
-        Quaternion target = Quaternion.Euler(newRotAngle, 90.0f, 90.0f);
-        particleSystem.transform.rotation = Quaternion.Slerp(particleSystem.transform.rotation, target, Time.deltaTime * 5.0f);
+        float newRotAngle = rb.velocity.x.Remap(-10.0f, 10.0f, 25.0f, -25.0f);
+        Quaternion target = Quaternion.Euler(0.0f, 0.0f, newRotAngle);
+        jetpackPivot.transform.rotation = Quaternion.Slerp(jetpackPivot.transform.rotation, target, Time.deltaTime * 5.0f);
     }
 
-    private void PlayJetpackEmission(bool play = true)
-    {
-        if (!play)
-        {
-            if (particleSystem.isPlaying)
-            {
-                particleSystem.Stop();
-            }
-        }
-        else
-        {
-            if (!particleSystem.isEmitting)
-            {
-                particleSystem.Play();
-            }
-        }
-    }
+    //private void PlayJetpackEmission(bool play = true)
+    //{
+    //    if (!play)
+    //    {
+    //        if (particleSystem.isPlaying)
+    //        {
+    //            particleSystem.Stop();
+    //        }
+    //    }
+    //    else
+    //    {
+    //        if (!particleSystem.isEmitting)
+    //        {
+    //            particleSystem.Play();
+    //        }
+    //    }
+    //}
 
     private string GetInputNameForPlayer(string input)
     {
