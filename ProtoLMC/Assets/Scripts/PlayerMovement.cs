@@ -14,7 +14,7 @@ public static class ExtensionMethods
 public class PlayerMovement : MonoBehaviour
 {
     /* Serialized fields */
-    [SerializeField] [Range(1, 4)] private int playerId = 1;
+    [SerializeField] [Range(1, 4)] public int playerId = 1;
     [SerializeField] [Range(0, 50)] public float climbingSpeed = 5.0f;
     [SerializeField] [Range(0, 100)] public float jetpackVAcceleration = 10.0f;
     [SerializeField] [Range(0, 100)] public float jetpackHAcceleration = 10.0f;
