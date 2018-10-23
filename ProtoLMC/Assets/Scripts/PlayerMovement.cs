@@ -22,7 +22,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public float maxJetpackHorizontalVelocity = 10.0f; // Max horizontal velocity while using jet pack.
     [SerializeField] private float gravityScale = 3.0f;
     [SerializeField] private Animator jetpackAnimator;
-    [SerializeField] private GameObject jetpackPivot;
 
     /* Components */
     private Rigidbody2D rb;
@@ -93,28 +92,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Rotate jet pack emission by emitting in the opposite direction of the player velocity
-        float newRotAngle = rb.velocity.x.Remap(-10.0f, 10.0f, 25.0f, -25.0f);
+        float newRotAngle = rb.velocity.x.Remap(-10.0f, 10.0f, 30.0f, -30.0f);
         Quaternion target = Quaternion.Euler(0.0f, 0.0f, newRotAngle);
-        jetpackPivot.transform.rotation = Quaternion.Slerp(jetpackPivot.transform.rotation, target, Time.deltaTime * 5.0f);
+        this.transform.rotation = Quaternion.Slerp(this.transform.rotation, target, Time.deltaTime * 5.0f);
     }
-
-    //private void PlayJetpackEmission(bool play = true)
-    //{
-    //    if (!play)
-    //    {
-    //        if (particleSystem.isPlaying)
-    //        {
-    //            particleSystem.Stop();
-    //        }
-    //    }
-    //    else
-    //    {
-    //        if (!particleSystem.isEmitting)
-    //        {
-    //            particleSystem.Play();
-    //        }
-    //    }
-    //}
 
     private string GetInputNameForPlayer(string input)
     {
