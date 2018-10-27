@@ -9,6 +9,7 @@ public class CollectableObject : MonoBehaviour {
 
     protected Delegate actionOnTriggerEnter = null;
     protected Delegate actionBeforeDestruction = null;
+    protected Delegate actionInNextFrame = null;
     // Time in seconds before destroy gameObject after OnTriggerEnter2D call
     // Set to -1 to avoid the destruction.
     protected int realtimeBeforeDestruction = 0;
@@ -44,6 +45,11 @@ public class CollectableObject : MonoBehaviour {
             yield return (new WaitForSecondsRealtime(this.realtimeBeforeDestruction));
         if (this.actionBeforeDestruction != null)
             this.actionBeforeDestruction(entity);
+        if (this.actionInNextFrame != null)
+        {
+            yield return (null);
+            this.actionInNextFrame(entity);
+        }
         if (this.realtimeBeforeDestruction != -1)
             Destroy(gameObject);
     }
