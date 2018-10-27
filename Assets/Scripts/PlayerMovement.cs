@@ -33,7 +33,6 @@ public class PlayerMovement : MonoBehaviour
     private float horizontalMovement = 0f;
     private float verticalMovement = 0f;
     private bool usingJetpack = false;
-    private bool playerControlsEnabled = true;
 
     private void Awake()
     {
@@ -54,54 +53,48 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (playerControlsEnabled)
+        horizontalInput = Input.GetAxis(GetInputNameForPlayer("Direction X"));
+        horizontalMovement = horizontalInput;
+        // TODO  Which is better ?
+        //horizontalMovement = Input.GetAxisRaw("Horizontal");
+
+        verticalMovement = Input.GetAxis(GetInputNameForPlayer("Direction Y"));
+        usingJetpack = Input.GetButton(GetInputNameForPlayer("LT"));
+
+        if (usingJetpack)
         {
-            horizontalInput = Input.GetAxis(GetInputNameForPlayer("Direction X"));
-            horizontalMovement = horizontalInput;
-            // TODO  Which is better ?
-            //horizontalMovement = Input.GetAxisRaw("Horizontal");
-
-            verticalMovement = Input.GetAxis(GetInputNameForPlayer("Direction Y"));
-            usingJetpack = UsingJetpack();
-
-            if (usingJetpack)
-            {
-                horizontalMovement *= jetpackHAcceleration;
-                verticalMovement = 0;
-                jetpackAnimator.SetBool("useJetpack", true);
-            }
-            else
-            {
-                horizontalMovement *= climbingSpeed;
-                verticalMovement *= climbingSpeed;
-                jetpackAnimator.SetBool("useJetpack", false);
-            }
+            horizontalMovement *= jetpackHAcceleration;
+            verticalMovement = 0;
+            jetpackAnimator.SetBool("useJetpack", true);
+        }
+        else
+        {
+            horizontalMovement *= climbingSpeed;
+            verticalMovement *= climbingSpeed;
+            jetpackAnimator.SetBool("useJetpack", false);
         }
     }
 
     private void FixedUpdate()
     {
-        if (playerControlsEnabled)
+        if (usingJetpack)
         {
-            if (usingJetpack)
-            {
-                // Player movement
-                rb.AddForce(new Vector2(horizontalMovement, jetpackVAcceleration));
+            // Player movement
+            rb.AddForce(new Vector2(horizontalMovement, jetpackVAcceleration));
 
-                // Clamp vertical velocity to no go too fast
-                rb.velocity = ClampVelocity(rb.velocity);
-            }
-            else // Climbing
-            {
-                controller.Move(horizontalMovement * Time.fixedDeltaTime,
-                    verticalMovement * Time.fixedDeltaTime);
-            }
-
-            // Rotate jet pack emission by emitting in the opposite direction of the player velocity
-            float newRotAngle = rb.velocity.x.Remap(-10.0f, 10.0f, 30.0f, -30.0f);
-            Quaternion target = Quaternion.Euler(0.0f, 0.0f, newRotAngle);
-            this.transform.rotation = Quaternion.Slerp(this.transform.rotation, target, Time.deltaTime * 5.0f);
+            // Clamp vertical velocity to no go too fast
+            rb.velocity = ClampVelocity(rb.velocity);
         }
+        else // Climbing
+        {
+            controller.Move(horizontalMovement * Time.fixedDeltaTime,
+                verticalMovement * Time.fixedDeltaTime);
+        }
+
+        // Rotate jet pack emission by emitting in the opposite direction of the player velocity
+        float newRotAngle = rb.velocity.x.Remap(-10.0f, 10.0f, 30.0f, -30.0f);
+        Quaternion target = Quaternion.Euler(0.0f, 0.0f, newRotAngle);
+        this.transform.rotation = Quaternion.Slerp(this.transform.rotation, target, Time.deltaTime * 5.0f);
     }
 
     private string GetInputNameForPlayer(string input)
@@ -134,18 +127,5 @@ public class PlayerMovement : MonoBehaviour
         }
 
         return newVelocity;
-    }
-
-    private bool UsingJetpack()
-    {
-        return (Input.GetAxis(GetInputNameForPlayer("LT")) == 1.0f) || 
-                (Input.GetAxis(GetInputNameForPlayer("RT")) == -1.0f);
-    }
-
-    public void EnablePlayerControls(bool enable)
-    {
-        rb.velocity = new Vector3();
-        jetpackAnimator.SetBool("useJetpack", false);
-        playerControlsEnabled = enable;
     }
 }
