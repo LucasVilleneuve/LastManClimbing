@@ -12,8 +12,8 @@ public class Lava : MonoBehaviour
         {
             string pName = collider.gameObject.name;
             Debug.Log(pName + " touched lava floor");
-            gameRules.UpdateNbPlayersAlive(pName);
-            Destroy(collider.gameObject);
+            gameRules.UpdateNbPlayersAlive(collider.gameObject);
+            collider.gameObject.SetActive(false);
         }
     }
 }
