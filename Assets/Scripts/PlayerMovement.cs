@@ -139,7 +139,8 @@ public class PlayerMovement : MonoBehaviour
     private bool UsingJetpack()
     {
         return (Input.GetAxis(GetInputNameForPlayer("LT")) == 1.0f) || 
-                (Input.GetAxis(GetInputNameForPlayer("RT")) == -1.0f);
+                (Input.GetAxis(GetInputNameForPlayer("RT")) == -1.0f) ||
+                (Input.GetButton("DebugJetpackKeyboardP" + playerId) == true);
     }
 
     public void EnablePlayerControls(bool enable)
