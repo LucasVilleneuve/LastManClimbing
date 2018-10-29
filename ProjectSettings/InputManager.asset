@@ -1158,7 +1158,7 @@ InputManager:
     axis: 27
     joyNum: 16
   - serializedVersion: 3
-    m_Name: DebugJetpackKeyboard
+    m_Name: DebugJetpackKeyboardP1
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
