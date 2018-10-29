@@ -1173,3 +1173,51 @@ InputManager:
     type: 0
     axis: 27
     joyNum: 16
+  - serializedVersion: 3
+    m_Name: DebugJetpackKeyboardP2
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: -1000
+    dead: 0
+    sensitivity: -1000
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 27
+    joyNum: 16
+  - serializedVersion: 3
+    m_Name: DebugJetpackKeyboardP3
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: -1000
+    dead: 0
+    sensitivity: -1000
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 27
+    joyNum: 16
+  - serializedVersion: 3
+    m_Name: DebugJetpackKeyboardP4
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: -1000
+    dead: 0
+    sensitivity: -1000
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 27
+    joyNum: 16
