@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public float maxJetpackHorizontalVelocity = 10.0f; // Max horizontal velocity while using jet pack.
     [SerializeField] private float gravityScale = 3.0f;
     [SerializeField] private Animator jetpackAnimator;
+    public Transform jetpackFuel;
 
     /* Components */
     private Rigidbody2D rb;
@@ -52,6 +53,22 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "FuelTank")
+        {
+            if (jetpackFuel.localScale.y < 5)
+            {
+                jetpackFuel.localScale += new Vector3(0,
+                (float)collision.gameObject.GetComponent<fuelTankScript>().fuelUnit / 100);
+                Destroy(collision.gameObject);
+                if (jetpackFuel.localScale.y > 5)
+                    jetpackFuel.localScale = new Vector3(jetpackFuel.localScale.x, 5);
+
+            }
+        }
+    }
+
     private void Update()
     {
         if (playerControlsEnabled)
@@ -64,8 +81,11 @@ public class PlayerMovement : MonoBehaviour
             verticalMovement = Input.GetAxis(GetInputNameForPlayer("Direction Y"));
             usingJetpack = UsingJetpack();
 
-            if (usingJetpack)
+            if (usingJetpack && jetpackFuel.localScale.y > 0)
             {
+                jetpackFuel.localScale += new Vector3(0, -0.01f);
+                if (jetpackFuel.localScale.y < 0)
+                    jetpackFuel.localScale = new Vector3(jetpackFuel.localScale.x, 0);
                 horizontalMovement *= jetpackHAcceleration;
                 verticalMovement = 0;
                 jetpackAnimator.SetBool("useJetpack", true);
@@ -83,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (playerControlsEnabled)
         {
-            if (usingJetpack)
+            if (usingJetpack && jetpackFuel.localScale.y > 0)
             {
                 // Player movement
                 rb.AddForce(new Vector2(horizontalMovement, jetpackVAcceleration));
