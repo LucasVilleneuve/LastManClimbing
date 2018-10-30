@@ -44,7 +44,9 @@ public class GameRules : MonoBehaviour
 
     public void EndGame(GameObject lastPlayer)
     {
+        lastPlayer.transform.rotation = new Quaternion(0, 0, 0, 0);
         lastPlayer.GetComponent<PlayerMovement>().EnablePlayerControls(false);
+        lastPlayer.GetComponent<PlayerArea>().EnablePlayerArea(false);
         mainCamera.GetComponent<CameraMovement>().EnableMovement(false);
         Debug.Log(lastPlayer.name + " won !");
         winCs.Activate(lastPlayer);

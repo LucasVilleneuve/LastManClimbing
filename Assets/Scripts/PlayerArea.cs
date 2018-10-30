@@ -4,24 +4,28 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 
-public class PlayerArea : MonoBehaviour {
-
+public class PlayerArea : MonoBehaviour
+{
     private GameObject playerMap;
     private float leftBound;
     private float rightBound;
+    private bool enablePlayerArea = true;
 
 	void Start () {
         this.FoundPlayerMap();
 	}
 	
 	void Update () {
-        if (transform.position.x < this.leftBound)
+        if (enablePlayerArea)
         {
-            transform.position = new Vector3(this.leftBound, transform.position.y, transform.position.z);
-        }
-        if (transform.position.x > this.rightBound)
-        {
-            transform.position = new Vector3(this.rightBound, transform.position.y, transform.position.z);
+            if (transform.position.x < this.leftBound)
+            {
+                transform.position = new Vector3(this.leftBound, transform.position.y, transform.position.z);
+            }
+            if (transform.position.x > this.rightBound)
+            {
+                transform.position = new Vector3(this.rightBound, transform.position.y, transform.position.z);
+            }
         }
 	}
 
@@ -48,5 +52,10 @@ public class PlayerArea : MonoBehaviour {
     public GameObject GetPlayerMap()
     {
         return (this.playerMap);
+    }
+
+    public void EnablePlayerArea(bool enable)
+    {
+        enablePlayerArea = enable;
     }
 }
