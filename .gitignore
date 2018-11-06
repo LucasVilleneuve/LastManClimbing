@@ -45,3 +45,13 @@ Corridor/Library/ShaderCache/
 Corridor/Library/metadata/
 .vscode/settings.json
 *.info
+Assets/Controller Tester.meta
+Assets/Controller Tester/Scenes.meta
+Assets/Controller Tester/Scenes/controllerTest.unity
+Assets/Controller Tester/Scenes/controllerTest.unity.meta
+Assets/Controller Tester/Scripts.meta
+Assets/Controller Tester/Scripts/DetectUnknownControllerMappings.cs
+Assets/Controller Tester/Scripts/DetectUnknownControllerMappings.cs.meta
+Assets/Controller Tester/Scripts/Editor.meta
+Assets/Controller Tester/Scripts/Editor/TestGamepadEditor.cs
+Assets/Controller Tester/Scripts/Editor/TestGamepadEditor.cs.meta

@@ -4,7 +4,6 @@ using UnityEngine.EventSystems;
 
 public class SelectInput : MonoBehaviour
 {
-
     public EventSystem eventSystem;
     public GameObject selectedObject;
 
@@ -13,13 +12,12 @@ public class SelectInput : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetAxisRaw("Vertical") != 0 && buttonSelected == false)
+        if (Input.GetAxisRaw("Joystick 1 Direction Y") != 0 && buttonSelected == false)
         {
             eventSystem.SetSelectedGameObject(selectedObject);
             buttonSelected = true;

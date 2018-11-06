@@ -10,20 +10,20 @@ public class GameRules : MonoBehaviour
     [SerializeField] private WinnerCutScene winCs;
 
     /* Debug */
-    [SerializeField] [Range (2, 4)] private int nbPlayers = 2;
+    [SerializeField] [Range(2, 4)] private int debugNbPlayers = 2;
 
     /* Private fields */
+    private int nbPlayers = 0;
     private List<GameObject> players = new List<GameObject>();
-    private List<int>   playersAlive = new List<int>();
+    private List<int> playersAlive = new List<int>();
 
     private void Awake()
     {
+        nbPlayers = MainMenuManager.NbPlayers;
+        if (nbPlayers == 0)
+            nbPlayers = debugNbPlayers;
+        Debug.Log("There is " + nbPlayers + "players.");
         SpawnPlayers(nbPlayers);
-        string[] s = Input.GetJoystickNames();
-        foreach (string str in s)
-        {
-            Debug.Log(str);
-        }
     }
 
     // Called whenever a player is killed by the lava.
