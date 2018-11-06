@@ -12,8 +12,25 @@ public class TilemapsManager : MonoBehaviour {
     private GameObject lastInstance;
     private List<GameObject> chunks = new List<GameObject>();
     private Vector3 pos;
+    private Vector3 scale;
+    private Vector2 totalSize;
 
 	void Start () {
+        scale = maps[0].transform.localScale;
+
+        foreach (GameObject map in maps)
+        {
+            if (map.transform.localScale != scale)
+            {
+                //Debug.LogException(new System.Exception("tile chunks have different scales. Exiting..."));
+                throw new System.Exception("tile chunks have different scales. Exiting...");
+            }
+        }
+
+        totalSize.x = 8 * scale.x;
+        totalSize.y = 10 * scale.y;
+
+        print(maps[0].transform.localScale);
         pos = new Vector3(posX, 0, 0);
         addStarter(new Vector3(posX, -5, 0));
         addChunk(new Vector3(posX, 5, 0));
@@ -42,7 +59,7 @@ public class TilemapsManager : MonoBehaviour {
             if (!chunks[i].GetComponent<ChunkManager>().Scroll(relativeSpeed))
             {
                 // add new chunk
-                pos.y = chunks[chunks.Count-1].transform.position.y + 10;
+                pos.y = chunks[chunks.Count-1].transform.position.y + totalSize.y;
                 addChunk(pos);
 
                 // remove old chunk
