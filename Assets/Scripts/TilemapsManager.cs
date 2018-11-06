@@ -16,8 +16,8 @@ public class TilemapsManager : MonoBehaviour {
     private Vector2 totalSize;
 
 	void Start () {
-        scale = maps[0].transform.localScale;
 
+        scale = maps[0].transform.localScale;
         foreach (GameObject map in maps)
         {
             if (map.transform.localScale != scale)
@@ -29,11 +29,16 @@ public class TilemapsManager : MonoBehaviour {
 
         totalSize.x = 8 * scale.x;
         totalSize.y = 10 * scale.y;
+        posX *= totalSize.x;
 
-        print(maps[0].transform.localScale);
-        pos = new Vector3(posX, 0, 0);
-        addStarter(new Vector3(posX, -5, 0));
-        addChunk(new Vector3(posX, 5, 0));
+        pos = new Vector3(
+            gameObject.transform.position.x + posX,
+            gameObject.transform.position.y,
+            gameObject.transform.position.z
+        );
+
+        addStarter(new Vector3(0, -5, 0) + pos);
+        addChunk(new Vector3(0, 5, 0) + pos);
     }
 
     private void addStarter(Vector3 pos)
