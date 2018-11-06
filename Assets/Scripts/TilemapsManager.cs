@@ -14,6 +14,7 @@ public class TilemapsManager : MonoBehaviour {
     private Vector3 pos;
     private Vector3 scale;
     private Vector2 totalSize;
+    private float minY;
 
 	void Start () {
 
@@ -37,13 +38,18 @@ public class TilemapsManager : MonoBehaviour {
             gameObject.transform.position.z
         );
 
-        addStarter(new Vector3(0, -5, 0) + pos);
-        addChunk(new Vector3(0, 5, 0) + pos);
+        minY = pos.y - totalSize.y;
+        print(minY);
+
+        addStarter(new Vector3(0, -(totalSize.y / 2), 0) + pos);
+        addChunk(new Vector3(0, totalSize.y / 2, 0) + pos);
     }
 
     private void addStarter(Vector3 pos)
     {
-        chunks.Add(Instantiate(starter, pos, Quaternion.identity));
+        GameObject tmp = Instantiate(starter, pos, Quaternion.identity);
+        tmp.GetComponent<ChunkManager>().setMinY(minY);
+        chunks.Add(tmp);
     }
 
     private void addChunk(Vector3 pos)
@@ -51,7 +57,10 @@ public class TilemapsManager : MonoBehaviour {
         int mapNb = Random.Range(0, maps.Length);
 
         print("new chunk [" + mapNb + "] at position " + pos.x + "," + pos.y);
-        chunks.Add(Instantiate(maps[mapNb], pos, Quaternion.identity));
+
+        GameObject tmp = Instantiate(maps[mapNb], pos, Quaternion.identity);
+        tmp.GetComponent<ChunkManager>().setMinY(minY);
+        chunks.Add(tmp);
     }
 
     // put this update as first

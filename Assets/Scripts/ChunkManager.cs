@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class ChunkManager : MonoBehaviour {
 
-    private float minY = -10;
+    private float minY;
+
+    public void setMinY(float y) { minY = y; }
 
     // if the chunk goes under the camera, it returns false to be deleted by the manager
 	public bool Scroll (Vector3 relativeSpeed) {
