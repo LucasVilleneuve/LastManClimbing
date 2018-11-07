@@ -8,6 +8,7 @@ public class GameRules : MonoBehaviour
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private WinnerCutScene winCs;
+    [SerializeField] private GameObject mapManagerPrefab;
 
     /* Debug */
     [SerializeField] [Range(2, 4)] private int debugNbPlayers = 2;
@@ -56,11 +57,15 @@ public class GameRules : MonoBehaviour
     {
         for (int i = 1; i <= nbOfPlayers; ++i)
         {
+            // Spawn Player
             GameObject player = Instantiate(playerPrefab, new Vector3(10 + 20 * (i - 1), 2.5f, 0), new Quaternion());
             player.name = "Player " + i;
             player.GetComponent<PlayerMovement>().playerId = i;
             players.Add(player);
             playersAlive.Add(i);
+
+            // Spawn map associated
+            Instantiate(mapManagerPrefab, new Vector3(20 * (i - 1), -1, 2), new Quaternion());
         }
     }
 

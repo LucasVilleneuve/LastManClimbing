@@ -2,92 +2,64 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TilemapsManager : MonoBehaviour {
+public class TilemapsManager : MonoBehaviour
+{
+    /* Serialized fields */
+    [SerializeField] private int chunkHeight = 48;
+    [SerializeField] private GameObject starter;
+    [SerializeField] private GameObject[] maps;
 
-    public const int CHUNK_W = 10;
-    public const int CHUNK_H = 24;
-    public const int STARTER_H = 6;
-
-
-    public GameObject starter;
-    public GameObject[] maps;
-    public float posX;
-    public float speed;
-
-    private GameObject lastInstance;
-    private List<GameObject> chunks = new List<GameObject>();
+    /* Private fields */
+    private Queue<GameObject> chunks = new Queue<GameObject>();
     private Vector3 pos;
-    private Vector3 scale;
-    private Vector2 totalSize;
-    private float minY;
+    private int lastPosCam = 0;
+    private bool firstPassInUpdate = true;
 
-	void Start () {
-
-        // Getting the preset scale for maps (and exiting if they have different ones)
-        scale = maps[0].transform.localScale;
-        foreach (GameObject map in maps)
-        {
-            if (map.transform.localScale != scale)
-            {
-                throw new System.Exception("tile chunks have different scales. Exiting...");
-            }
-        }
-
-        // Setting relative size, pos and minimum posY of the chunks
-        // (depending on the scale, the parent's position and the posX parameter)
-        totalSize.x = CHUNK_W * scale.x;
-        totalSize.y = CHUNK_H * scale.y;
-        posX *= totalSize.x;
-
-        pos = new Vector3(
-            gameObject.transform.position.x + posX,
-            gameObject.transform.position.y,
-            gameObject.transform.position.z
-        );
-
-        minY = pos.y - totalSize.y;
-
-
-        // Adding the starter chunk (empty, half the normal size) and the first chunk
-        addStarter(new Vector3(0, -(totalSize.y / 3)*2, 0) + pos);
-        addChunk(new Vector3(0, totalSize.y / 3, 0) + pos);
+    private void Start()
+    {
+        pos = transform.position;
+        pos.y += chunkHeight;
+        AddStarter(pos);
+        pos.y += chunkHeight;
+        AddChunk(pos);
     }
 
-    private void addStarter(Vector3 pos)
+    private void AddStarter(Vector3 pos)
     {
         GameObject tmp = Instantiate(starter, pos, Quaternion.identity);
-        tmp.GetComponent<ChunkManager>().setMinY(minY);
-        chunks.Add(tmp);
+        //tmp.GetComponent<ChunkManager>().setMinY(minY);
+        chunks.Enqueue(tmp);
     }
 
-    private void addChunk(Vector3 pos)
+    private void AddChunk(Vector3 pos)
     {
         int mapNb = Random.Range(0, maps.Length);
 
-        print("new chunk [" + mapNb + "] at position " + pos.x + "," + pos.y);
-
         GameObject tmp = Instantiate(maps[mapNb], pos, Quaternion.identity);
-        tmp.GetComponent<ChunkManager>().setMinY(minY);
-        chunks.Add(tmp);
+        //tmp.GetComponent<ChunkManager>().setMinY(minY);
+        chunks.Enqueue(tmp);
     }
 
-    // put this update as first
-	void Update () {
-
-        Vector3 relativeSpeed = new Vector3(0, Time.deltaTime * -speed, 0);
-
-        for (int i = chunks.Count - 1; i >= 0; i--)
+    private void Update()
+    {
+        int posCam = (int)Camera.main.transform.position.y;
+        if (lastPosCam != posCam)
         {
-            if (!chunks[i].GetComponent<ChunkManager>().Scroll(relativeSpeed))
+            if (posCam % (24 * 2) == 0)
             {
-                // add new chunk
-                pos.y = chunks[chunks.Count-1].transform.position.y + totalSize.y;
-                addChunk(pos);
+                pos.y += chunkHeight;
+                AddChunk(pos);
 
-                // remove old chunk
-                Destroy(chunks[i]);
-                chunks.RemoveAt(i);
+                if (firstPassInUpdate)
+                {
+                    firstPassInUpdate = false;
+                }
+                else
+                {
+                    Destroy(chunks.Dequeue());
+                }
             }
         }
-	}
+        lastPosCam = posCam;
+    }
 }
