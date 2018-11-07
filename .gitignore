@@ -55,3 +55,5 @@ Assets/Controller Tester/Scripts/DetectUnknownControllerMappings.cs.meta
 Assets/Controller Tester/Scripts/Editor.meta
 Assets/Controller Tester/Scripts/Editor/TestGamepadEditor.cs
 Assets/Controller Tester/Scripts/Editor/TestGamepadEditor.cs.meta
+
+ProjectSettings/ProjectVersion.txt
