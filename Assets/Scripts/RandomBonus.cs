@@ -15,8 +15,19 @@ public class RandomBonus : MonoBehaviour
         else
         {
             GameObject go = Instantiate(bonuses[Random.Range(0, bonuses.Length)], transform.position, Quaternion.identity);
-            go.GetComponent<CollectableObject>().UseEffect(entity.gameObject);
+            CollectableObject bonus = go.GetComponent<CollectableObject>();
+            StartCoroutine(ShowMessage(bonus.description, entity.gameObject, 2.5f));
+            bonus.UseEffect(entity.gameObject);
         }
         Destroy(gameObject);
+    }
+
+    private IEnumerator ShowMessage(string message, GameObject player, float delay)
+    {
+        Debug.Log(player.name);
+        PlayerBonusText pbt = player.GetComponent<PlayerBonusText>();
+        pbt.SetBonusText(message);
+        yield return new WaitForSeconds(delay);
+        pbt.SetBonusText("");
     }
 }

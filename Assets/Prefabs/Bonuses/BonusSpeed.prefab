@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d011336c3ec6a784f9ffd7bf0ea33a86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  description: Speed up
   speedBonusValue: 10
   bonusDuration: 5
 --- !u!212 &212460113701221894

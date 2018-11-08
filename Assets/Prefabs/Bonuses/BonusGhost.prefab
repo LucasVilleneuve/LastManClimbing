@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc920b8f4932904a9bb64a081b8a2be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  description: Ghost
   bonusDuration: 3
 --- !u!212 &212971009332104070
 SpriteRenderer:
