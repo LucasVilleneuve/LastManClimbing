@@ -56,6 +56,8 @@ public class GameRules : MonoBehaviour
 
     private void SpawnPlayers(int nbOfPlayers)
     {
+        int seed = (int)System.DateTime.Now.Ticks;
+
         for (int i = 1; i <= nbOfPlayers; ++i)
         {
             // Spawn Player
@@ -67,6 +69,7 @@ public class GameRules : MonoBehaviour
 
             // Spawn map associated
             GameObject map = Instantiate(mapManagerPrefab, new Vector3(20 * (i - 1), -1, 2), Quaternion.identity);
+            map.GetComponent<TilemapsManager>().Init(seed);
         }
     }
 

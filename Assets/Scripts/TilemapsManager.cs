@@ -9,15 +9,19 @@ public class TilemapsManager : MonoBehaviour
     [SerializeField] public int chunkWidth = 20;
     [SerializeField] private GameObject starter;
     [SerializeField] private GameObject[] maps;
+    [SerializeField] private GameObject gameRules;
 
     /* Private fields */
     private Queue<GameObject> chunks = new Queue<GameObject>();
     private Vector3 pos;
     private int lastPosCam = 0;
     private bool firstPassInUpdate = true;
+    private int _seed;
 
-    private void Start()
+    public void Init(int seed)
     {
+        _seed = seed;
+        SetSeed(seed);
         pos = transform.position;
         pos.y += chunkHeight;
         AddStarter(pos);
@@ -28,16 +32,15 @@ public class TilemapsManager : MonoBehaviour
     private void AddStarter(Vector3 pos)
     {
         GameObject tmp = Instantiate(starter, pos, Quaternion.identity);
-        //tmp.GetComponent<ChunkManager>().setMinY(minY);
         chunks.Enqueue(tmp);
     }
 
     private void AddChunk(Vector3 pos)
     {
+        SetSeed(_seed);
         int mapNb = Random.Range(0, maps.Length);
 
         GameObject tmp = Instantiate(maps[mapNb], pos, Quaternion.identity);
-        //tmp.GetComponent<ChunkManager>().setMinY(minY);
         chunks.Enqueue(tmp);
     }
 
@@ -91,5 +94,10 @@ public class TilemapsManager : MonoBehaviour
     public GameObject[] GetMaps()
     {
         return (maps);
+    }
+
+    public void SetSeed(int newSeed)
+    {
+        Random.InitState(newSeed);
     }
 }

@@ -113,6 +113,63 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &253737837
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4471350471215826, guid: fbdddacfc47c33d42b8d347b4815431f, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471350471215826, guid: fbdddacfc47c33d42b8d347b4815431f, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471350471215826, guid: fbdddacfc47c33d42b8d347b4815431f, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471350471215826, guid: fbdddacfc47c33d42b8d347b4815431f, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471350471215826, guid: fbdddacfc47c33d42b8d347b4815431f, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471350471215826, guid: fbdddacfc47c33d42b8d347b4815431f, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471350471215826, guid: fbdddacfc47c33d42b8d347b4815431f, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471350471215826, guid: fbdddacfc47c33d42b8d347b4815431f, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114128726575793934, guid: fbdddacfc47c33d42b8d347b4815431f,
+        type: 2}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 2042864465}
+    - target: {fileID: 114380214481969942, guid: fbdddacfc47c33d42b8d347b4815431f,
+        type: 2}
+      propertyPath: endingCanvas
+      value: 
+      objectReference: {fileID: 1408642623}
+    - target: {fileID: 114380214481969942, guid: fbdddacfc47c33d42b8d347b4815431f,
+        type: 2}
+      propertyPath: winnerTextMeshPro
+      value: 
+      objectReference: {fileID: 936503796}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fbdddacfc47c33d42b8d347b4815431f, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &415202395
 GameObject:
   m_ObjectHideFlags: 0
@@ -745,68 +802,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1052753893
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1052753894}
-  - component: {fileID: 1052753895}
-  - component: {fileID: 1052753896}
-  m_Layer: 0
-  m_Name: Game rules
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1052753894
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1052753893}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1052753895
+--- !u!114 &1052753895 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1052753893}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 114128726575793934, guid: fbdddacfc47c33d42b8d347b4815431f,
+    type: 2}
+  m_PrefabInternal: {fileID: 253737837}
   m_Script: {fileID: 11500000, guid: f3a8d7af6e4f17d4f8d9c02c6668bf94, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 1373431469202924, guid: bd94ce994900e6444872bc9ed247a8b2,
-    type: 2}
-  mainCamera: {fileID: 2042864465}
-  winCs: {fileID: 1052753896}
-  mapManagerPrefab: {fileID: 1383419275808232, guid: bac57f03848ac61458f5e5b21538c8cb,
-    type: 2}
-  debugNbPlayers: 4
---- !u!114 &1052753896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1052753893}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6173424ae2a05704bada725fa63e89c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  endingCanvas: {fileID: 1408642623}
-  winnerTextMeshPro: {fileID: 936503796}
-  speedToGetToCenter: 25
 --- !u!1 &1184129067
 GameObject:
   m_ObjectHideFlags: 0
