@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7261fbb5e03a94b8734949b272d939, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  description: Falling rocks
   fallingRockPrefab: {fileID: 1972542310177484, guid: f3522be3447d2cd4fbb8bd5efd7d5b59,
     type: 2}
 --- !u!212 &212340193512105256
