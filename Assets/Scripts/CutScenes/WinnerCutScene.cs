@@ -3,40 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class WinnerCutScene : MonoBehaviour {
+public class WinnerCutScene : MonoBehaviour
+{
+    /* Serialized fields */
+    [SerializeField] private GameObject winnerTextMeshPro;
+    [SerializeField] private float speedToGetToCenter = 25.0f;
 
-	/* Serialized fields */
-	[SerializeField] private GameObject winnerTextMeshPro;
-	[SerializeField] private float speedToGetToCenter = 25.0f;
+    /* Private fields */
+    private TextMeshProUGUI textMP;
 
-	/* Private fields */
-	private TextMeshProUGUI textMP;
+    private void Awake()
+    {
+        textMP = winnerTextMeshPro.GetComponent<TextMeshProUGUI>();
+    }
 
-	private void Awake()
-	{
-		textMP = winnerTextMeshPro.GetComponent<TextMeshProUGUI>();
-	}
+    public void Activate(GameObject winner)
+    {
+        winnerTextMeshPro.SetActive(true);
+        textMP.text = winner.name + " won !";
 
-	public void Activate(GameObject winner)
-	{
-		winnerTextMeshPro.SetActive(true);
-		textMP.text = winner.name + " won !";
+        Vector3 cameraCenter = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        cameraCenter.z = 1;
+        StartCoroutine(MoveToPosition(winner.transform, winner.transform.position, cameraCenter, speedToGetToCenter));
+    }
 
-		Vector3 cameraCenter = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 0));
-		cameraCenter.z = 0;
-		StartCoroutine(MoveToPosition(winner.transform, winner.transform.position, cameraCenter, speedToGetToCenter));
-	}
-
-	private IEnumerator MoveToPosition(Transform tr, Vector3 from, Vector3 to, float speed)
-   	{
-		float step = (speed / (from - to).magnitude) * Time.fixedDeltaTime;
-		float t = 0;
-		while (t <= 1.0f)
-		{
-			t += step; // Goes from 0 to 1, incrementing by step each time
-			tr.position = Vector3.Lerp(from, to, t); // Move tr closer to position
-			yield return new WaitForFixedUpdate(); // Leave the routine and return here in the next frame
-		}
-		tr.position = to;
-	}
+    private IEnumerator MoveToPosition(Transform tr, Vector3 from, Vector3 to, float speed)
+    {
+        float step = (speed / (from - to).magnitude) * Time.fixedDeltaTime;
+        float t = 0;
+        while (t <= 1.0f)
+        {
+            t += step; // Goes from 0 to 1, incrementing by step each time
+            tr.position = Vector3.Lerp(from, to, t); // Move tr closer to position
+            yield return new WaitForFixedUpdate(); // Leave the routine and return here in the next frame
+        }
+        tr.position = to;
+    }
 }

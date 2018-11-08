@@ -8,22 +8,23 @@ public class GameRules : MonoBehaviour
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private WinnerCutScene winCs;
+    [SerializeField] private GameObject mapManagerPrefab;
 
     /* Debug */
-    [SerializeField] [Range (2, 4)] private int nbPlayers = 2;
+    [SerializeField] [Range(2, 4)] private int debugNbPlayers = 2;
 
     /* Private fields */
+    private int nbPlayers = 0;
     private List<GameObject> players = new List<GameObject>();
-    private List<int>   playersAlive = new List<int>();
+    private List<int> playersAlive = new List<int>();
 
     private void Awake()
     {
+        nbPlayers = MainMenuManager.NbPlayers;
+        if (nbPlayers == 0)
+            nbPlayers = debugNbPlayers;
+        Debug.Log("There is " + nbPlayers + "players.");
         SpawnPlayers(nbPlayers);
-        string[] s = Input.GetJoystickNames();
-        foreach (string str in s)
-        {
-            Debug.Log(str);
-        }
     }
 
     // Called whenever a player is killed by the lava.
@@ -56,11 +57,15 @@ public class GameRules : MonoBehaviour
     {
         for (int i = 1; i <= nbOfPlayers; ++i)
         {
+            // Spawn Player
             GameObject player = Instantiate(playerPrefab, new Vector3(10 + 20 * (i - 1), 2.5f, 0), new Quaternion());
             player.name = "Player " + i;
             player.GetComponent<PlayerMovement>().playerId = i;
             players.Add(player);
             playersAlive.Add(i);
+
+            // Spawn map associated
+            Instantiate(mapManagerPrefab, new Vector3(20 * (i - 1), -1, 2), new Quaternion());
         }
     }
 

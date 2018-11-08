@@ -6,6 +6,7 @@ public class CameraMovement : MonoBehaviour
 {
     [SerializeField] private float cameraSpeed = 0.0f;
     [SerializeField] private float speedIncreaseByTick = 0.0f;
+    [SerializeField] private float timeBeforeMoving = 5.0f;
 
     private bool cameraMovementEnable = true;
 
@@ -18,8 +19,15 @@ public class CameraMovement : MonoBehaviour
     {
         if (cameraMovementEnable)
         {
-            transform.position = transform.position + new Vector3(0, cameraSpeed / 1000.0f, 0);
-            cameraSpeed += (speedIncreaseByTick / 1000.0f);
+            if (timeBeforeMoving > 0.0f)
+            {
+                timeBeforeMoving -= Time.deltaTime;
+            }
+            else
+            {
+                transform.position = transform.position + new Vector3(0, cameraSpeed / 1000.0f, 0);
+                cameraSpeed += (speedIncreaseByTick / 1000.0f);
+            }
         }
     }
 

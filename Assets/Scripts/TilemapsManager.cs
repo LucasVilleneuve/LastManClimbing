@@ -2,53 +2,64 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TilemapsManager : MonoBehaviour {
+public class TilemapsManager : MonoBehaviour
+{
+    /* Serialized fields */
+    [SerializeField] private int chunkHeight = 48;
+    [SerializeField] private GameObject starter;
+    [SerializeField] private GameObject[] maps;
 
-    public GameObject starter;
-    public GameObject[] maps;
-    public float posX;
-    public float speed;
-
-    private GameObject lastInstance;
-    private List<GameObject> chunks = new List<GameObject>();
+    /* Private fields */
+    private Queue<GameObject> chunks = new Queue<GameObject>();
     private Vector3 pos;
+    private int lastPosCam = 0;
+    private bool firstPassInUpdate = true;
 
-	void Start () {
-        pos = new Vector3(posX, 0, 0);
-        addStarter(new Vector3(posX, -5, 0));
-        addChunk(new Vector3(posX, 5, 0));
-    }
-
-    private void addStarter(Vector3 pos)
+    private void Start()
     {
-        chunks.Add(Instantiate(starter, pos, Quaternion.identity));
+        pos = transform.position;
+        pos.y += chunkHeight;
+        AddStarter(pos);
+        pos.y += chunkHeight;
+        AddChunk(pos);
     }
 
-    private void addChunk(Vector3 pos)
+    private void AddStarter(Vector3 pos)
+    {
+        GameObject tmp = Instantiate(starter, pos, Quaternion.identity);
+        //tmp.GetComponent<ChunkManager>().setMinY(minY);
+        chunks.Enqueue(tmp);
+    }
+
+    private void AddChunk(Vector3 pos)
     {
         int mapNb = Random.Range(0, maps.Length);
 
-        print("new chunk [" + mapNb + "] at position " + pos.x + "," + pos.y);
-        chunks.Add(Instantiate(maps[mapNb], pos, Quaternion.identity));
+        GameObject tmp = Instantiate(maps[mapNb], pos, Quaternion.identity);
+        //tmp.GetComponent<ChunkManager>().setMinY(minY);
+        chunks.Enqueue(tmp);
     }
 
-    // put this update as first
-	void Update () {
-
-        Vector3 relativeSpeed = new Vector3(0, Time.deltaTime * -speed, 0);
-
-        for (int i = chunks.Count - 1; i >= 0; i--)
+    private void Update()
+    {
+        int posCam = (int)Camera.main.transform.position.y;
+        if (lastPosCam != posCam)
         {
-            if (!chunks[i].GetComponent<ChunkManager>().Scroll(relativeSpeed))
+            if (posCam % (24 * 2) == 0)
             {
-                // add new chunk
-                pos.y = chunks[chunks.Count-1].transform.position.y + 10;
-                addChunk(pos);
+                pos.y += chunkHeight;
+                AddChunk(pos);
 
-                // remove old chunk
-                Destroy(chunks[i]);
-                chunks.RemoveAt(i);
+                if (firstPassInUpdate)
+                {
+                    firstPassInUpdate = false;
+                }
+                else
+                {
+                    Destroy(chunks.Dequeue());
+                }
             }
         }
-	}
+        lastPosCam = posCam;
+    }
 }
