@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class GameRules : MonoBehaviour
@@ -58,14 +59,14 @@ public class GameRules : MonoBehaviour
         for (int i = 1; i <= nbOfPlayers; ++i)
         {
             // Spawn Player
-            GameObject player = Instantiate(playerPrefab, new Vector3(10 + 20 * (i - 1), 2.5f, 0), new Quaternion());
+            GameObject player = Instantiate(playerPrefab, new Vector3(10 + 20 * (i - 1), 2.5f, 0), Quaternion.identity);
             player.name = "Player " + i;
             player.GetComponent<PlayerMovement>().playerId = i;
             players.Add(player);
             playersAlive.Add(i);
 
             // Spawn map associated
-            Instantiate(mapManagerPrefab, new Vector3(20 * (i - 1), -1, 2), new Quaternion());
+            GameObject map = Instantiate(mapManagerPrefab, new Vector3(20 * (i - 1), -1, 2), Quaternion.identity);
         }
     }
 
@@ -78,5 +79,15 @@ public class GameRules : MonoBehaviour
                 return player;
         }
         return null;
+    }
+
+    public void ReloadGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

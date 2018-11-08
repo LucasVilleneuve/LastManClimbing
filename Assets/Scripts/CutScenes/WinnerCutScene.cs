@@ -6,6 +6,7 @@ using TMPro;
 public class WinnerCutScene : MonoBehaviour
 {
     /* Serialized fields */
+    [SerializeField] private GameObject endingCanvas;
     [SerializeField] private GameObject winnerTextMeshPro;
     [SerializeField] private float speedToGetToCenter = 25.0f;
 
@@ -19,6 +20,7 @@ public class WinnerCutScene : MonoBehaviour
 
     public void Activate(GameObject winner)
     {
+        endingCanvas.SetActive(true);
         winnerTextMeshPro.SetActive(true);
         textMP.text = winner.name + " won !";
 
