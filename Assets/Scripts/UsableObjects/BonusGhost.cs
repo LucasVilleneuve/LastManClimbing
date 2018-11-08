@@ -24,45 +24,32 @@ public class BonusGhost : CollectableObject
     void DisablePlayerCollider(GameObject entity)
     {
         Color ghost = entity.GetComponent<SpriteRenderer>().color;
-        GameObject playerMap = entity.GetComponent<PlayerArea>().GetPlayerMap();
         Collider2D playerCollider = entity.GetComponent<Collider2D>();
-        TilemapCollider2D tilemapCollider = playerMap.GetComponent<TilemapCollider2D>();
 
         ghost.a = 0.2f;
-        Physics2D.IgnoreCollision(playerCollider, tilemapCollider);
+        playerCollider.enabled = false;
         entity.GetComponent<SpriteRenderer>().color = ghost;
     }
 
     void EnablePlayerCollider(GameObject entity)
     {
         Color regular = entity.GetComponent<SpriteRenderer>().color;
-        GameObject playerMap = entity.GetComponent<PlayerArea>().GetPlayerMap();
         Collider2D playerCollider = entity.GetComponent<Collider2D>();
-        TilemapCollider2D tilemapCollider = playerMap.GetComponent<TilemapCollider2D>();
-        Vector3 playerPosition = entity.GetComponent<Transform>().position;
 
         regular.a = 1.0f;
-        Physics2D.IgnoreCollision(playerCollider, tilemapCollider, false);
+        playerCollider.enabled = true;
         entity.GetComponent<SpriteRenderer>().color = regular;
     }
 
     void TeleportPlayerOutsideBloc(GameObject entity)
     {
         GameObject playerMap = entity.GetComponent<PlayerArea>().GetPlayerMap();
+        TilemapsManager map = playerMap.GetComponent<TilemapsManager>();
         Transform playerTransform = entity.GetComponent<Transform>();
-        Tilemap tilemap = playerMap.GetComponent<Tilemap>();
         
-        while (!PlayerIsOnEmptyTile(playerTransform.position, tilemap))
+        while (!map.CellIsEmpty(playerTransform.position))
         {
             playerTransform.Translate(new Vector3(0, 1, 0));
         }
-    }
-
-    bool PlayerIsOnEmptyTile(Vector3 playerPosition, Tilemap tilemap)
-    {
-        Vector3Int cellPosition = tilemap.WorldToCell(playerPosition);
-        TileBase tile = tilemap.GetTile(cellPosition);
-
-        return (tile == null);
     }
 }

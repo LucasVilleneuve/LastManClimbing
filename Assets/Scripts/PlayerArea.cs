@@ -10,6 +10,7 @@ public class PlayerArea : MonoBehaviour
     private float leftBound;
     private float rightBound;
     private bool enablePlayerArea = true;
+    [SerializeField] private int CELL_SIZE = 2;
 
 	void Start () {
         this.FoundPlayerMap();
@@ -36,15 +37,15 @@ public class PlayerArea : MonoBehaviour
 
         foreach (GameObject map in maps)
         {
-            Tilemap tilemap = map.GetComponent<Tilemap>();
+            TilemapsManager tilemap = map.GetComponent<TilemapsManager>();
             float startX = map.transform.position.x;
-            float endX = startX + (tilemap.cellSize.x * tilemap.size.x);
+            float endX = startX + (tilemap.chunkWidth);
 
             if (transform.position.x > startX && transform.position.x < endX)
             {
                 this.playerMap = map;
-                this.leftBound = startX + tilemap.cellSize.x;
-                this.rightBound = endX - tilemap.cellSize.x - playerRenderer.bounds.size.x / 2;
+                this.leftBound = startX + CELL_SIZE + playerRenderer.bounds.size.x / 2;
+                this.rightBound = endX - CELL_SIZE - playerRenderer.bounds.size.x / 2;
             }
         }
     }

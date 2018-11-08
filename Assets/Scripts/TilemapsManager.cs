@@ -63,4 +63,33 @@ public class TilemapsManager : MonoBehaviour
         }
         lastPosCam = posCam;
     }
+
+    public bool CellIsEmpty(Vector3 position)
+    {
+        Debug.Log("CellIsEmpty ?");
+        foreach (GameObject map in chunks)
+        {
+            foreach (Transform tile in map.transform)
+            {
+                float sizeX = tile.GetComponent<SpriteRenderer>().bounds.size.x;
+                float sizeY = tile.GetComponent<SpriteRenderer>().bounds.size.y;
+                float tileX = tile.position.x - sizeX / 2;
+                float tileY = tile.position.y - sizeY / 2;
+
+                if (position.x > tileX && position.x < (tileX + sizeX)
+                    && position.y > tileY && position.y < (tileY + sizeY))
+                {
+                    Debug.Log("FALSE !!!!!!!!!!!!!!!!!!!!!!!!");
+                    Debug.Log("tileX : " + tileX + " / playerX : " + position.x + " / tileY : " + tileY + " / playerY : " + position.y + " / sizeX : " + sizeX + " / sizeY : " + sizeY);
+                    return (false);
+                }
+            }
+        }
+        return (true);
+    }
+
+    public GameObject[] GetMaps()
+    {
+        return (maps);
+    }
 }
