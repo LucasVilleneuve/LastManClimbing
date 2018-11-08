@@ -5,7 +5,8 @@ using UnityEngine;
 public class TilemapsManager : MonoBehaviour
 {
     /* Serialized fields */
-    [SerializeField] private int chunkHeight = 48;
+    [SerializeField] public int chunkHeight = 48;
+    [SerializeField] public int chunkWidth = 20;
     [SerializeField] private GameObject starter;
     [SerializeField] private GameObject[] maps;
 
