@@ -33,8 +33,7 @@ public class CollectableObject : MonoBehaviour {
                 gameObject.GetComponent<BoxCollider2D>().enabled = false;
                 gameObject.GetComponent<SpriteRenderer>().enabled = false;
             }
-            if (this.actionOnTriggerEnter != null)
-                this.actionOnTriggerEnter(entity);
+            this.UseEffect(entity);
             StartCoroutine(WaitAndDestroy(entity));
         }
     }
@@ -52,5 +51,11 @@ public class CollectableObject : MonoBehaviour {
         }
         if (this.realtimeBeforeDestruction != -1)
             Destroy(gameObject);
+    }
+
+    public void UseEffect(GameObject entity)
+    {
+        if (this.actionOnTriggerEnter != null)
+            this.actionOnTriggerEnter(entity);
     }
 }
