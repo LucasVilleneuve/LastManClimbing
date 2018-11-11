@@ -57,20 +57,41 @@ public class GameRules : MonoBehaviour
     private void SpawnPlayers(int nbOfPlayers)
     {
         int seed = (int)System.DateTime.Now.Ticks;
+        float startPos = 0;
+        float spacing = 0;
+
+        if (nbOfPlayers == 2)
+        {
+            startPos = 12.5f;
+            spacing = 15;
+        }
+        else if (nbOfPlayers == 3)
+        {
+            startPos = 5;
+            spacing = 5;
+        }
 
         for (int i = 1; i <= nbOfPlayers; ++i)
         {
-            // Spawn Player
-            GameObject player = Instantiate(playerPrefab, new Vector3(10 + 20 * (i - 1), 2.5f, 0), Quaternion.identity);
-            player.name = "Player " + i;
-            player.GetComponent<PlayerMovement>().playerId = i;
-            players.Add(player);
-            playersAlive.Add(i);
-
-            // Spawn map associated
-            GameObject map = Instantiate(mapManagerPrefab, new Vector3(20 * (i - 1), -1, 2), Quaternion.identity);
-            map.GetComponent<TilemapsManager>().Init(seed);
+            int nb = i - 1;
+            float posx = startPos + 10 + spacing * nb + 20 * nb;
+            float posxMap = posx - 10;
+            SpawnPlayerAndMap(i, new Vector3(posx, 2.5f, 0), new Vector3(posxMap, -1, 2), seed);
         }
+    }
+
+    private void SpawnPlayerAndMap(int playerNb, Vector3 posPlayer, Vector3 posMap, int seed)
+    {
+        // Spawn Player
+        GameObject player = Instantiate(playerPrefab, posPlayer, Quaternion.identity);
+        player.name = "Player " + playerNb;
+        player.GetComponent<PlayerMovement>().playerId = playerNb;
+        players.Add(player);
+        playersAlive.Add(playerNb);
+
+        // Spawn map associated
+        GameObject map = Instantiate(mapManagerPrefab, posMap, Quaternion.identity);
+        map.GetComponent<TilemapsManager>().Init(seed);
     }
 
     private GameObject FindPlayerById(int id)

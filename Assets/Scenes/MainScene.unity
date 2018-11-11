@@ -167,6 +167,11 @@ Prefab:
       propertyPath: winnerTextMeshPro
       value: 
       objectReference: {fileID: 936503796}
+    - target: {fileID: 114128726575793934, guid: fbdddacfc47c33d42b8d347b4815431f,
+        type: 2}
+      propertyPath: debugNbPlayers
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fbdddacfc47c33d42b8d347b4815431f, type: 2}
   m_IsPrefabAsset: 0

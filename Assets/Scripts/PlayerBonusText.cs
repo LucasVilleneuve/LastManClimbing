@@ -12,11 +12,8 @@ public class PlayerBonusText : MonoBehaviour
         RectTransform tr = textMPBonus.GetComponent<RectTransform>();
         Vector3 newPosition = tr.anchoredPosition;
 
-        float pos = Mathf.Floor(transform.position.x / 20.0f);
-        float posRelatedToScrWidth = Screen.width / 4 * pos; // Set x position depending on player position
-        float startingOffset = -Screen.width / 2 + (Screen.width / 4 / 2);
-        newPosition.x = startingOffset + posRelatedToScrWidth;
-
+        float pos = transform.position.x * (Screen.width / 2.0f) / 40.0f;
+        newPosition.x = -980 + pos;
         tr.anchoredPosition = newPosition; // Set new position
     }
 
