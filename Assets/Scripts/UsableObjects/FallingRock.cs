@@ -16,8 +16,9 @@ public class FallingRock : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Player")
         {
-            Debug.Log("detect collision player");
-            // Appeler la méthode de hit du player
+            PlayerMovement playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
+
+            playerMovement.HitThePlayer();
         }
     }
 }

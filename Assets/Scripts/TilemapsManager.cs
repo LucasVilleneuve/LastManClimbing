@@ -5,18 +5,23 @@ using UnityEngine;
 public class TilemapsManager : MonoBehaviour
 {
     /* Serialized fields */
-    [SerializeField] private int chunkHeight = 48;
+    [SerializeField] public int chunkHeight = 48;
+    [SerializeField] public int chunkWidth = 20;
     [SerializeField] private GameObject starter;
     [SerializeField] private GameObject[] maps;
+    [SerializeField] private GameObject gameRules;
 
     /* Private fields */
     private Queue<GameObject> chunks = new Queue<GameObject>();
     private Vector3 pos;
     private int lastPosCam = 0;
     private bool firstPassInUpdate = true;
+    private int _seed;
 
-    private void Start()
+    public void Init(int seed)
     {
+        _seed = seed;
+        SetSeed(seed);
         pos = transform.position;
         pos.y += chunkHeight;
         AddStarter(pos);
@@ -27,16 +32,15 @@ public class TilemapsManager : MonoBehaviour
     private void AddStarter(Vector3 pos)
     {
         GameObject tmp = Instantiate(starter, pos, Quaternion.identity);
-        //tmp.GetComponent<ChunkManager>().setMinY(minY);
         chunks.Enqueue(tmp);
     }
 
     private void AddChunk(Vector3 pos)
     {
+        SetSeed(_seed);
         int mapNb = Random.Range(0, maps.Length);
 
         GameObject tmp = Instantiate(maps[mapNb], pos, Quaternion.identity);
-        //tmp.GetComponent<ChunkManager>().setMinY(minY);
         chunks.Enqueue(tmp);
     }
 
@@ -61,5 +65,39 @@ public class TilemapsManager : MonoBehaviour
             }
         }
         lastPosCam = posCam;
+    }
+
+    public bool CellIsEmpty(Vector3 position)
+    {
+        Debug.Log("CellIsEmpty ?");
+        foreach (GameObject map in chunks)
+        {
+            foreach (Transform tile in map.transform)
+            {
+                float sizeX = tile.GetComponent<SpriteRenderer>().bounds.size.x;
+                float sizeY = tile.GetComponent<SpriteRenderer>().bounds.size.y;
+                float tileX = tile.position.x - sizeX / 2;
+                float tileY = tile.position.y - sizeY / 2;
+
+                if (position.x > tileX && position.x < (tileX + sizeX)
+                    && position.y > tileY && position.y < (tileY + sizeY))
+                {
+                    Debug.Log("FALSE !!!!!!!!!!!!!!!!!!!!!!!!");
+                    Debug.Log("tileX : " + tileX + " / playerX : " + position.x + " / tileY : " + tileY + " / playerY : " + position.y + " / sizeX : " + sizeX + " / sizeY : " + sizeY);
+                    return (false);
+                }
+            }
+        }
+        return (true);
+    }
+
+    public GameObject[] GetMaps()
+    {
+        return (maps);
+    }
+
+    public void SetSeed(int newSeed)
+    {
+        Random.InitState(newSeed);
     }
 }

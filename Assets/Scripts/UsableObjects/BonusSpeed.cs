@@ -22,22 +22,13 @@ public class BonusSpeed : CollectableObject {
     {
         PlayerMovement playerMovement = entity.GetComponent<PlayerMovement>();
 
-        this.ApplyBonusToPlayer(playerMovement, this.speedBonusValue);
+        playerMovement.AddSpeedValue(this.speedBonusValue);
     }
 
     void ResumeBonusToPlayer(GameObject entity)
     {
         PlayerMovement playerMovement = entity.GetComponent<PlayerMovement>();
-        
-        this.ApplyBonusToPlayer(playerMovement, -this.speedBonusValue);
-    }
 
-    void    ApplyBonusToPlayer(PlayerMovement playerMovement, float speedBonusValue)
-    {
-        playerMovement.climbingSpeed += speedBonusValue;
-        playerMovement.jetpackVAcceleration += speedBonusValue;
-        playerMovement.maxJetpackVerticalVelocity += speedBonusValue;
-        playerMovement.jetpackHAcceleration += speedBonusValue;
-        playerMovement.maxJetpackHorizontalVelocity += speedBonusValue;
+        playerMovement.AddSpeedValue(-this.speedBonusValue);
     }
 }

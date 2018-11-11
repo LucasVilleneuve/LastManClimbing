@@ -16,11 +16,19 @@ public class TrapFallingRocks : CollectableObject {
 
     void InstantiateFallingRock(GameObject entity)
     {
+        Vector3 rockPosition;
         Vector3 cameraPosition = Camera.main.transform.position;
-        Vector3 rockPosition = entity.transform.position;
         float fallingRockHeight = fallingRockPrefab.GetComponent<SpriteRenderer>().bounds.size.y;
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
-        rockPosition.y = cameraPosition.y + Camera.main.orthographicSize + fallingRockHeight;
-        GameObject newRock = Instantiate(this.fallingRockPrefab, rockPosition, Quaternion.identity);
+        foreach (GameObject player in players)
+        {
+            if (player != entity)
+            {
+                rockPosition = player.transform.position;
+                rockPosition.y = cameraPosition.y + Camera.main.orthographicSize + fallingRockHeight;
+                GameObject newRock = Instantiate(this.fallingRockPrefab, rockPosition, Quaternion.identity);
+            }
+        }
     }
 }

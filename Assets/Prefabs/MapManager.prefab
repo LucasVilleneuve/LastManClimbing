@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114276888325814126}
   m_Layer: 0
   m_Name: MapManager
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52,11 +52,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chunkHeight: 48
+  chunkWidth: 20
   starter: {fileID: 1680882577344504, guid: 639839f6199803b419374f0282217d68, type: 2}
   maps:
   - {fileID: 1680882577344504, guid: 639839f6199803b419374f0282217d68, type: 2}
   - {fileID: 1126860122453312, guid: fa3d777ed3380e14b91d786431688056, type: 2}
   - {fileID: 1486372453369176, guid: 4d2d7615f2a99394283d9393e688719d, type: 2}
   - {fileID: 1950403938271332, guid: 09542fc07811d044b9127e38168e98ac, type: 2}
-  posX: 0
-  speed: 0

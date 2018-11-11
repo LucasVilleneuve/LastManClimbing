@@ -6,6 +6,7 @@ using TMPro;
 public class WinnerCutScene : MonoBehaviour
 {
     /* Serialized fields */
+    [SerializeField] private GameObject endingCanvas;
     [SerializeField] private GameObject winnerTextMeshPro;
     [SerializeField] private float speedToGetToCenter = 25.0f;
 
@@ -19,12 +20,13 @@ public class WinnerCutScene : MonoBehaviour
 
     public void Activate(GameObject winner)
     {
+        endingCanvas.SetActive(true);
         winnerTextMeshPro.SetActive(true);
         textMP.text = winner.name + " won !";
 
-        Vector3 cameraCenter = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 0));
-        cameraCenter.z = 1;
-        StartCoroutine(MoveToPosition(winner.transform, winner.transform.position, cameraCenter, speedToGetToCenter));
+        //Vector3 cameraCenter = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        //cameraCenter.z = -1;
+        //StartCoroutine(MoveToPosition(winner.transform, winner.transform.position, cameraCenter, speedToGetToCenter));
     }
 
     private IEnumerator MoveToPosition(Transform tr, Vector3 from, Vector3 to, float speed)
