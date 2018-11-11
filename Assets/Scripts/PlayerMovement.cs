@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float gravityScale = 3.0f;
     [SerializeField] private Animator jetpackAnimator;
     public Transform jetpackFuel;
+    private Animator animator;
 
     /* Components */
     private Rigidbody2D rb;
@@ -39,16 +40,19 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         //particleSystem = GetComponentInChildren<ParticleSystem>();
         controller = GetComponent<CharacterController2D>();
         jetpackAnimator.SetBool("useJetpack", false);
 
         if (usingJetpack)
         {
+            animator.SetBool("JetPack", true);
             rb.gravityScale = gravityScale;
         }
         else
         {
+            animator.SetBool("JetPack", false);
             rb.gravityScale = 0;
         }
     }
@@ -89,12 +93,16 @@ public class PlayerMovement : MonoBehaviour
                 horizontalMovement *= jetpackHAcceleration;
                 verticalMovement = 0;
                 jetpackAnimator.SetBool("useJetpack", true);
+                animator.SetBool("JetPack", true);
+
             }
             else
             {
                 horizontalMovement *= climbingSpeed;
                 verticalMovement *= climbingSpeed;
                 jetpackAnimator.SetBool("useJetpack", false);
+                animator.SetBool("JetPack", false);
+                animator.SetBool("Moving", (verticalMovement != 0f || horizontalMovement != 0f));
             }
         }
     }
@@ -110,9 +118,12 @@ public class PlayerMovement : MonoBehaviour
 
                 // Clamp vertical velocity to no go too fast
                 rb.velocity = ClampVelocity(rb.velocity);
+                animator.SetBool("JetPack", true);
+
             }
             else // Climbing
             {
+                animator.SetBool("JetPack", false);
                 controller.Move(horizontalMovement * Time.fixedDeltaTime,
                     verticalMovement * Time.fixedDeltaTime);
             }
