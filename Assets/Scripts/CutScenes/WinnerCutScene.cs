@@ -24,9 +24,9 @@ public class WinnerCutScene : MonoBehaviour
         winnerTextMeshPro.SetActive(true);
         textMP.text = winner.name + " won !";
 
-        Vector3 cameraCenter = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 0));
-        cameraCenter.z = 1;
-        StartCoroutine(MoveToPosition(winner.transform, winner.transform.position, cameraCenter, speedToGetToCenter));
+        //Vector3 cameraCenter = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        //cameraCenter.z = -1;
+        //StartCoroutine(MoveToPosition(winner.transform, winner.transform.position, cameraCenter, speedToGetToCenter));
     }
 
     private IEnumerator MoveToPosition(Transform tr, Vector3 from, Vector3 to, float speed)
