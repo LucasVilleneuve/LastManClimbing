@@ -169,4 +169,27 @@ public class PlayerMovement : MonoBehaviour
         jetpackAnimator.SetBool("useJetpack", false);
         playerControlsEnabled = enable;
     }
+
+    public void HitThePlayer()
+    {
+        StartCoroutine(PlayerIsWounded());
+    }
+
+    private IEnumerator PlayerIsWounded()
+    {
+        float speedValue = -5;
+
+        this.AddSpeedValue(speedValue);
+        yield return (new WaitForSecondsRealtime(2));
+        this.AddSpeedValue(-speedValue);
+    }
+
+    public void AddSpeedValue(float speedValue)
+    {
+        this.climbingSpeed += speedValue;
+        this.jetpackVAcceleration += speedValue;
+        this.maxJetpackVerticalVelocity += speedValue;
+        this.jetpackHAcceleration += speedValue;
+        this.maxJetpackHorizontalVelocity += speedValue;
+    }
 }
