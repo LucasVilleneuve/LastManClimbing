@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public float maxJetpackHorizontalVelocity = 10.0f; // Max horizontal velocity while using jet pack.
     [SerializeField] private float gravityScale = 3.0f;
     [SerializeField] private Animator jetpackAnimator;
+    public int dashForce = 1000;
     public Transform jetpackFuel;
     private Animator animator;
 
@@ -36,6 +37,8 @@ public class PlayerMovement : MonoBehaviour
     private float verticalMovement = 0f;
     private bool usingJetpack = false;
     private bool playerControlsEnabled = true;
+    private int usingDash = 0;
+    private bool allowDash = true;
 
     private void Awake()
     {
@@ -73,6 +76,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    
+
     private void Update()
     {
         if (playerControlsEnabled)
@@ -84,17 +89,29 @@ public class PlayerMovement : MonoBehaviour
 
             verticalMovement = Input.GetAxis(GetInputNameForPlayer("Direction Y"));
             usingJetpack = UsingJetpack();
+            usingDash = UsingDash();
 
-            if (usingJetpack && jetpackFuel.localScale.y > 0)
+            if (((allowDash && usingDash != 0) || usingJetpack) && jetpackFuel.localScale.y > 0)
             {
-                jetpackFuel.localScale += new Vector3(0, -0.01f);
-                if (jetpackFuel.localScale.y < 0)
-                    jetpackFuel.localScale = new Vector3(jetpackFuel.localScale.x, 0);
-                horizontalMovement *= jetpackHAcceleration;
-                verticalMovement = 0;
-                jetpackAnimator.SetBool("useJetpack", true);
-                animator.SetBool("JetPack", true);
-
+                if (allowDash && usingDash != 0)
+                {
+                    jetpackFuel.localScale += new Vector3(0, -0.05f);
+                    if (jetpackFuel.localScale.y < 0)
+                        jetpackFuel.localScale = new Vector3(jetpackFuel.localScale.x, 0);
+                    jetpackAnimator.SetBool("useJetpack", true);
+                    animator.SetBool("JetPack", true);
+                }
+                else if (usingJetpack)
+                {
+                    jetpackFuel.localScale += new Vector3(0, -0.005f);
+                    if (jetpackFuel.localScale.y < 0)
+                        jetpackFuel.localScale = new Vector3(jetpackFuel.localScale.x, 0);
+                    horizontalMovement *= jetpackHAcceleration;
+                    verticalMovement = 0;
+                    jetpackAnimator.SetBool("useJetpack", true);
+                    animator.SetBool("JetPack", true);
+                }
+                
             }
             else
             {
@@ -107,18 +124,38 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    IEnumerator CoolDownDash()
+    {
+        yield return new WaitForSeconds(1);
+        allowDash = true;
+    }
+
     private void FixedUpdate()
     {
         if (playerControlsEnabled)
         {
-            if (usingJetpack && jetpackFuel.localScale.y > 0)
+            if (((allowDash && usingDash != 0) || usingJetpack) && jetpackFuel.localScale.y > 0)
             {
-                // Player movement
-                rb.AddForce(new Vector2(horizontalMovement, jetpackVAcceleration));
+                if (allowDash && usingDash != 0)
+                {
+                    rb.AddForce(new Vector2(usingDash * dashForce, 0));
 
-                // Clamp vertical velocity to no go too fast
-                rb.velocity = ClampVelocity(rb.velocity);
-                animator.SetBool("JetPack", true);
+                    // Clamp vertical velocity to no go too fast
+                    rb.velocity = ClampVelocity(rb.velocity);
+                    animator.SetBool("JetPack", true);
+                    allowDash = false;
+                    StartCoroutine(CoolDownDash());
+                }
+                else if (usingJetpack)
+                {
+                    // Player movement
+                    rb.AddForce(new Vector2(horizontalMovement, jetpackVAcceleration));
+
+                    // Clamp vertical velocity to no go too fast
+                    rb.velocity = ClampVelocity(rb.velocity);
+                    animator.SetBool("JetPack", true);
+                }
+                
 
             }
             else // Climbing
@@ -165,6 +202,15 @@ public class PlayerMovement : MonoBehaviour
         }
 
         return newVelocity;
+    }
+
+    private int UsingDash()
+    {
+        if (Input.GetButton(GetInputNameForPlayer("LB")))
+            return (-1);
+        if (Input.GetButton(GetInputNameForPlayer("RB")))
+            return (1);
+        return (0);
     }
 
     private bool UsingJetpack()

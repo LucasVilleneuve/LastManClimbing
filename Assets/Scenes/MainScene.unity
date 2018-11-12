@@ -170,7 +170,7 @@ Prefab:
     - target: {fileID: 114128726575793934, guid: fbdddacfc47c33d42b8d347b4815431f,
         type: 2}
       propertyPath: debugNbPlayers
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fbdddacfc47c33d42b8d347b4815431f, type: 2}
@@ -1407,7 +1407,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2042864465}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 755620542122e2f4ea155f9a72ebb40a, type: 3}
   m_Name: 
