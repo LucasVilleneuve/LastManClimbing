@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
     private float horizontalInput = 0f;
     private float horizontalMovement = 0f;
     private float verticalMovement = 0f;
-    private bool usingJetpack = false;
+    private int usingJetpack = 0;
     private bool playerControlsEnabled = true;
     private int usingDash = 0;
     private bool allowDash = true;
@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
         controller = GetComponent<CharacterController2D>();
         jetpackAnimator.SetBool("useJetpack", false);
 
-        if (usingJetpack)
+        if (usingJetpack != 0)
         {
             animator.SetBool("JetPack", true);
             rb.gravityScale = gravityScale;
@@ -91,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
             usingJetpack = UsingJetpack();
             usingDash = UsingDash();
 
-            if (((allowDash && usingDash != 0) || usingJetpack) && jetpackFuel.localScale.y > 0)
+            if (((allowDash && usingDash != 0) || usingJetpack != 0) && jetpackFuel.localScale.y > 0)
             {
                 if (allowDash && usingDash != 0)
                 {
@@ -101,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
                     jetpackAnimator.SetBool("useJetpack", true);
                     animator.SetBool("JetPack", true);
                 }
-                else if (usingJetpack)
+                else if (usingJetpack != 0)
                 {
                     jetpackFuel.localScale += new Vector3(0, -0.005f);
                     if (jetpackFuel.localScale.y < 0)
@@ -115,6 +115,8 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
+                if (jetpackFuel.localScale.y < 5)
+                    jetpackFuel.localScale += new Vector3(0, 0.01f);
                 horizontalMovement *= climbingSpeed;
                 verticalMovement *= climbingSpeed;
                 jetpackAnimator.SetBool("useJetpack", false);
@@ -134,7 +136,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (playerControlsEnabled)
         {
-            if (((allowDash && usingDash != 0) || usingJetpack) && jetpackFuel.localScale.y > 0)
+            if (((allowDash && usingDash != 0) || usingJetpack != 0) && jetpackFuel.localScale.y > 0)
             {
                 if (allowDash && usingDash != 0)
                 {
@@ -146,10 +148,10 @@ public class PlayerMovement : MonoBehaviour
                     allowDash = false;
                     StartCoroutine(CoolDownDash());
                 }
-                else if (usingJetpack)
+                else if (usingJetpack != 0)
                 {
                     // Player movement
-                    rb.AddForce(new Vector2(horizontalMovement, jetpackVAcceleration));
+                    rb.AddForce(new Vector2(horizontalMovement, usingJetpack * jetpackVAcceleration));
 
                     // Clamp vertical velocity to no go too fast
                     rb.velocity = ClampVelocity(rb.velocity);
@@ -210,14 +212,23 @@ public class PlayerMovement : MonoBehaviour
             return (-1);
         if (Input.GetButton(GetInputNameForPlayer("RB")))
             return (1);
+        if (Input.GetButton(GetInputNameForPlayer("A")))
+            return (2);
         return (0);
     }
 
-    private bool UsingJetpack()
+    private int UsingJetpack()
     {
-        return (Input.GetAxis(GetInputNameForPlayer("LT")) == 1.0f) || 
+        if (Input.GetAxis(GetInputNameForPlayer("LT")) == 1.0f)
+            return (-1);
+        if ((Input.GetAxis(GetInputNameForPlayer("RT")) == -1.0f||
+             Input.GetButton("DebugJetpackKeyboardP" + playerId) == true))
+            return (1);
+        return (0);
+        /*return (Input.GetAxis(GetInputNameForPlayer("LT")) == 1.0f) || 
                 (Input.GetAxis(GetInputNameForPlayer("RT")) == -1.0f) ||
                 (Input.GetButton("DebugJetpackKeyboardP" + playerId) == true);
+                */
     }
 
     public void EnablePlayerControls(bool enable)
