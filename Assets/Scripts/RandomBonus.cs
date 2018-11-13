@@ -10,6 +10,7 @@ public class RandomBonus : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D entity)
     {
+        if (entity.tag != "Player") { return; }
         Debug.Log("Collision");
         if (bonuses.Length <= 0)
             Debug.Log("Error, there is no bonuses.");
