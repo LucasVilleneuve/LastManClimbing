@@ -8,7 +8,7 @@ public class WinnerCutScene : MonoBehaviour
     /* Serialized fields */
     [SerializeField] private GameObject endingCanvas;
     [SerializeField] private GameObject winnerTextMeshPro;
-    [SerializeField] private float speedToGetToCenter = 25.0f;
+    //[SerializeField] private float speedToGetToCenter = 25.0f;
 
     /* Private fields */
     private TextMeshProUGUI textMP;

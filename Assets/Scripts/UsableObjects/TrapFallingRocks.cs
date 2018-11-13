@@ -27,7 +27,8 @@ public class TrapFallingRocks : CollectableObject {
             {
                 rockPosition = player.transform.position;
                 rockPosition.y = cameraPosition.y + Camera.main.orthographicSize + fallingRockHeight;
-                GameObject newRock = Instantiate(this.fallingRockPrefab, rockPosition, Quaternion.identity);
+                //GameObject newRock =
+                Instantiate(this.fallingRockPrefab, rockPosition, Quaternion.identity);
             }
         }
     }
