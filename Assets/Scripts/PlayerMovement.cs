@@ -71,12 +71,9 @@ public class PlayerMovement : MonoBehaviour
                 Destroy(collision.gameObject);
                 if (jetpackFuel.localScale.y > 5)
                     jetpackFuel.localScale = new Vector3(jetpackFuel.localScale.x, 5);
-
             }
         }
     }
-
-    
 
     private void Update()
     {
@@ -95,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (allowDash && usingDash != 0)
                 {
-                    jetpackFuel.localScale += new Vector3(0, -0.05f);
+                    jetpackFuel.localScale += new Vector3(0, -0.5f);
                     if (jetpackFuel.localScale.y < 0)
                         jetpackFuel.localScale = new Vector3(jetpackFuel.localScale.x, 0);
                     jetpackAnimator.SetBool("useJetpack", true);
@@ -103,7 +100,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else if (usingJetpack != 0)
                 {
-                    jetpackFuel.localScale += new Vector3(0, -0.005f);
+                    jetpackFuel.localScale += new Vector3(0, -0.015f);
                     if (jetpackFuel.localScale.y < 0)
                         jetpackFuel.localScale = new Vector3(jetpackFuel.localScale.x, 0);
                     horizontalMovement *= jetpackHAcceleration;
@@ -111,7 +108,6 @@ public class PlayerMovement : MonoBehaviour
                     jetpackAnimator.SetBool("useJetpack", true);
                     animator.SetBool("JetPack", true);
                 }
-                
             }
             else
             {
@@ -126,7 +122,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    IEnumerator CoolDownDash()
+    private IEnumerator CoolDownDash()
     {
         yield return new WaitForSeconds(1);
         allowDash = true;
@@ -157,8 +153,6 @@ public class PlayerMovement : MonoBehaviour
                     rb.velocity = ClampVelocity(rb.velocity);
                     animator.SetBool("JetPack", true);
                 }
-                
-
             }
             else // Climbing
             {
@@ -221,11 +215,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetAxis(GetInputNameForPlayer("LT")) == 1.0f)
             return (-1);
-        if ((Input.GetAxis(GetInputNameForPlayer("RT")) == -1.0f||
+        if ((Input.GetAxis(GetInputNameForPlayer("RT")) == -1.0f ||
              Input.GetButton("DebugJetpackKeyboardP" + playerId) == true))
             return (1);
         return (0);
-        /*return (Input.GetAxis(GetInputNameForPlayer("LT")) == 1.0f) || 
+        /*return (Input.GetAxis(GetInputNameForPlayer("LT")) == 1.0f) ||
                 (Input.GetAxis(GetInputNameForPlayer("RT")) == -1.0f) ||
                 (Input.GetButton("DebugJetpackKeyboardP" + playerId) == true);
                 */

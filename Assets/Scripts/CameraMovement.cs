@@ -12,7 +12,6 @@ public class CameraMovement : MonoBehaviour
 
     private void Awake()
     {
-        Screen.SetResolution(480, 1080, false);
     }
 
     private void Update()

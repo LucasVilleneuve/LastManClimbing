@@ -1412,6 +1412,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 755620542122e2f4ea155f9a72ebb40a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraSpeed: 70
-  speedIncreaseByTick: 1
+  cameraSpeed: 100
+  speedIncreaseByTick: 5
   timeBeforeMoving: 2.5

@@ -16,28 +16,37 @@ public class RandomBonus : MonoBehaviour
             Debug.Log("Error, there is no bonuses.");
         else
         {
+            Transform tr = transform.Find("30_0");
+            Animator rd = tr.GetComponent<Animator>();
+            rd.Play("30");
+            GetComponent<Renderer>().enabled = false;
             GameObject go = Instantiate(bonuses[Random.Range(0, bonuses.Length)], transform.position, Quaternion.identity);
             CollectableObject bonus = go.GetComponent<CollectableObject>();
-            StartCoroutine(ShowMessage(bonus.description, entity.gameObject, 2.5f));
             bonus.UseEffect(entity.gameObject);
+            StartCoroutine(ShowMessage(bonus.description, entity.gameObject, 2.5f, tr));
+            return;
         }
-
-        //Transform tr = GetComponentsInChildren<Transform>()[0];
-        Transform tr = transform.Find("30_0");
-        Animator rd = tr.GetComponent<Animator>();
-        //Animator rd = GetComponentsInChildren<Animator>()[0];
-        rd.Play("30");
-        tr.parent = null;
-        Destroy(gameObject);
-        Destroy(tr.gameObject, rd.GetCurrentAnimatorStateInfo(0).length);
+        DestroyBonus(null);
     }
 
-    private IEnumerator ShowMessage(string message, GameObject player, float delay)
+    private IEnumerator ShowMessage(string message, GameObject player, float delay, Transform tr)
     {
         Debug.Log(player.name);
         PlayerBonusText pbt = player.GetComponent<PlayerBonusText>();
         pbt.SetBonusText(message);
         yield return new WaitForSeconds(delay);
+        Debug.Log("Reseting");
         pbt.SetBonusText("");
+        DestroyBonus(tr);
+    }
+
+    private void DestroyBonus(Transform tr)
+    {
+        if (tr)
+        {
+            tr.parent = null;
+            Destroy(tr.gameObject, tr.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
+        }
+        Destroy(gameObject);
     }
 }
