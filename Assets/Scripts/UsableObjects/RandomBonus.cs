@@ -22,13 +22,14 @@ public class RandomBonus : MonoBehaviour
             GameObject go = Instantiate(bonuses[Random.Range(0, bonuses.Length)], transform.position, Quaternion.identity);
             CollectableObject bonus = go.GetComponent<CollectableObject>();
             bonus.UseEffect(entity.gameObject);
-            StartCoroutine(ShowMessage(bonus.description, entity.gameObject, 2.5f, tr));
+            DestroyAnim(tr);
+            StartCoroutine(ShowMessage(bonus.description, entity.gameObject, 2.5f));
             return;
         }
-        DestroyBonus(null);
+        DestroyBonus();
     }
 
-    private IEnumerator ShowMessage(string message, GameObject player, float delay, Transform tr)
+    private IEnumerator ShowMessage(string message, GameObject player, float delay)
     {
         Debug.Log(player.name);
         PlayerBonusText pbt = player.GetComponent<PlayerBonusText>();
@@ -36,16 +37,20 @@ public class RandomBonus : MonoBehaviour
         yield return new WaitForSeconds(delay);
         Debug.Log("Reseting");
         pbt.SetBonusText("");
-        DestroyBonus(tr);
+        DestroyBonus();
     }
 
-    private void DestroyBonus(Transform tr)
+    private void DestroyAnim(Transform tr)
     {
         if (tr)
         {
             tr.parent = null;
             Destroy(tr.gameObject, tr.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
         }
+    }
+
+    private void DestroyBonus()
+    {
         Destroy(gameObject);
     }
 }
