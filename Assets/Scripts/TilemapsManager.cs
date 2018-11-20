@@ -72,17 +72,16 @@ public class TilemapsManager : MonoBehaviour
         {
             foreach (Transform tile in map.transform)
             {
-                float sizeX = tile.GetComponent<SpriteRenderer>().bounds.size.x;
-                float sizeY = tile.GetComponent<SpriteRenderer>().bounds.size.y;
-                float tileX = tile.position.x - sizeX / 2;
-                float tileY = tile.position.y - sizeY / 2;
-
-                if (position.x > tileX && position.x < (tileX + sizeX)
-                    && position.y > tileY && position.y < (tileY + sizeY))
+                if (tile.GetComponent<SpriteRenderer>())
                 {
-                    Debug.Log("FALSE !!!!!!!!!!!!!!!!!!!!!!!!");
-                    Debug.Log("tileX : " + tileX + " / playerX : " + position.x + " / tileY : " + tileY + " / playerY : " + position.y + " / sizeX : " + sizeX + " / sizeY : " + sizeY);
-                    return (false);
+                    float sizeX = tile.GetComponent<SpriteRenderer>().bounds.size.x;
+                    float sizeY = tile.GetComponent<SpriteRenderer>().bounds.size.y;
+                    float tileX = tile.position.x - sizeX / 2;
+                    float tileY = tile.position.y - sizeY / 2;
+
+                    if (position.x > tileX && position.x < (tileX + sizeX)
+                        && position.y > tileY && position.y < (tileY + sizeY))
+                        return (false);
                 }
             }
         }

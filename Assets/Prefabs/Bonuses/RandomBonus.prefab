@@ -82,6 +82,9 @@ MonoBehaviour:
   - {fileID: 1308635887469254, guid: c4dce00db6ce40646a2a377b86643adc, type: 2}
   - {fileID: 1398178125250656, guid: 311b3e9f3b0d35741b68833f41727c0b, type: 2}
   - {fileID: 1602349654794912, guid: d2fde85e98be4914f881d84135618454, type: 2}
+  - {fileID: 1077835479640390, guid: 268cba683bbd6c4429baa49a45f35faf, type: 2}
+  animationPrefab: {fileID: 1889934606081272, guid: 0fa683b2d5255964e903cea0feab8c9c,
+    type: 2}
 --- !u!212 &212088985188370862
 SpriteRenderer:
   m_ObjectHideFlags: 1
