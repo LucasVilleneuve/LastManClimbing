@@ -24,7 +24,6 @@ public class GameRules : MonoBehaviour
         nbPlayers = MainMenuManager.NbPlayers;
         if (nbPlayers == 0)
             nbPlayers = debugNbPlayers;
-        Debug.Log("There is " + nbPlayers + "players.");
         SpawnPlayers(nbPlayers);
     }
 

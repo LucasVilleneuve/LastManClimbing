@@ -14,14 +14,13 @@ public class RandomBonus : MonoBehaviour
     {
         this.animationInstance = Instantiate(animationPrefab, transform.position, Quaternion.identity);
         this.animationInstance.transform.parent = this.transform;
-        this.animationInstance.transform.localScale = new Vector3(3.0f, 3.0f, 3.0f); 
+        this.animationInstance.transform.localScale = new Vector3(3.0f, 3.0f, 3.0f);
     }
 
     private void OnTriggerEnter2D(Collider2D entity)
     {
         if (entity.tag != "Player") { return; }
-        Debug.Log("Collision");
-        if (bonuses.Length <= 0)    
+        if (bonuses.Length <= 0)
             Debug.Log("Error, there is no bonuses.");
         else
         {
@@ -32,8 +31,8 @@ public class RandomBonus : MonoBehaviour
             GameObject go = Instantiate(bonuses[Random.Range(0, bonuses.Length)], transform.position, Quaternion.identity);
             CollectableObject bonus = go.GetComponent<CollectableObject>();
             bonus.UseEffect(entity.gameObject);
-            StartCoroutine(ShowMessage(bonus.description, entity.gameObject, 2.5f));
             DestroyAnim(tr);
+            StartCoroutine(ShowMessage(bonus.description, entity.gameObject, 2.5f));
             return;
         }
         DestroyBonus();

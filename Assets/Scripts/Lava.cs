@@ -5,9 +5,12 @@ using UnityEngine;
 public class Lava : MonoBehaviour
 {
     [SerializeField] private GameRules gameRules;
+    [SerializeField] private bool DebugEnable = true;
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
+        if (!DebugEnable) return;
+
         if (collider.tag.Equals("Player"))
         {
             string pName = collider.gameObject.name;
