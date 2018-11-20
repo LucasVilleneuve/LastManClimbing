@@ -100,7 +100,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else if (usingJetpack != 0)
                 {
-                    jetpackFuel.localScale += new Vector3(0, -0.015f);
+                    //jetpackFuel.localScale += new Vector3(0, -0.015f);
                     if (jetpackFuel.localScale.y < 0)
                         jetpackFuel.localScale = new Vector3(jetpackFuel.localScale.x, 0);
                     horizontalMovement *= jetpackHAcceleration;

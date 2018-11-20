@@ -14,6 +14,10 @@ public class CameraMovement : MonoBehaviour
     {
     }
 
+    public void setCameraSpeed(float newSpeed) { cameraSpeed = newSpeed; }
+
+    public float getCameraSpeed() { return cameraSpeed; }
+
     private void Update()
     {
         if (cameraMovementEnable)
