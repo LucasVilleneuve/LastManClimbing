@@ -16,6 +16,7 @@ public class CameraMovement : MonoBehaviour
     private int wave = 0;
     private float timeLeft = 0;
     private TextMeshProUGUI textMPCounterWave;
+    private float coolDown = 0.0f;
 
     private void Start()
     {
@@ -62,6 +63,7 @@ public class CameraMovement : MonoBehaviour
     private void UpdateTime()
     {
         timeLeft -= Time.deltaTime;
+        coolDown -= Time.deltaTime;
 
         if (timeLeft > 0.0f)
         {
@@ -94,5 +96,18 @@ public class CameraMovement : MonoBehaviour
     public void EnableMovement(bool enable)
     {
         cameraMovementEnable = enable;
+    }
+
+    public void PlayNextWave()
+    {
+        if (coolDown > 0.0f) // Cooldown not over
+            return;
+
+        if (timeLeft > 3.0f)
+        {
+            timeLeft = 3.0f; // Activate next wave in 3 seconds
+        }
+
+        coolDown = 5.0f; // Set cooldown to not spam PlayNextWave
     }
 }
