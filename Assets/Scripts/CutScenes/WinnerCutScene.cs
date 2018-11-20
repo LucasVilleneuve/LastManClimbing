@@ -8,6 +8,7 @@ public class WinnerCutScene : MonoBehaviour
     /* Serialized fields */
     [SerializeField] private GameObject endingCanvas;
     [SerializeField] private GameObject winnerTextMeshPro;
+    [SerializeField] private AudioSource mainThemeAudioSource;
     //[SerializeField] private float speedToGetToCenter = 25.0f;
 
     /* Private fields */
@@ -23,7 +24,7 @@ public class WinnerCutScene : MonoBehaviour
         endingCanvas.SetActive(true);
         winnerTextMeshPro.SetActive(true);
         textMP.text = winner.name + " won !";
-
+        mainThemeAudioSource.Stop();
         //Vector3 cameraCenter = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         //cameraCenter.z = -1;
         //StartCoroutine(MoveToPosition(winner.transform, winner.transform.position, cameraCenter, speedToGetToCenter));
