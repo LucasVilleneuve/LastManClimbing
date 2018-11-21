@@ -10,6 +10,7 @@ public class GameRules : MonoBehaviour
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private WinnerCutScene winCs;
     [SerializeField] private GameObject mapManagerPrefab;
+    [SerializeField] private AudioSource deathSound;
 
     /* Debug */
     [SerializeField] [Range(2, 4)] private int debugNbPlayers = 2;
@@ -40,6 +41,10 @@ public class GameRules : MonoBehaviour
                 EndGame(lastPlayer);
             else
                 Debug.Log("Error, Cannot find last player alive");
+        }
+        else
+        {
+            deathSound.Play();
         }
     }
 
