@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4074046725410374}
   - component: {fileID: 212994915675700024}
   - component: {fileID: 61328686731861412}
-  - component: {fileID: 114990546835201150}
+  - component: {fileID: 114088109211249648}
   m_Layer: 0
   m_Name: MalusSpeed
   m_TagString: Untagged
@@ -67,7 +67,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.5, y: 4.5}
   m_EdgeRadius: 0
---- !u!114 &114990546835201150
+--- !u!114 &114088109211249648
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -75,12 +75,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1602349654794912}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d011336c3ec6a784f9ffd7bf0ea33a86, type: 3}
+  m_Script: {fileID: 11500000, guid: c804315475ae5df46bb1bde8658acd39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   description: Speed down
-  speedBonusValue: -5
-  bonusDuration: 3
+  speedMalusValue: 5
+  malusDuration: 3
 --- !u!212 &212994915675700024
 SpriteRenderer:
   m_ObjectHideFlags: 1

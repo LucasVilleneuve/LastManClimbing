@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BonusSpeed : CollectableObject {
+public class BonusSpeed : CollectableObject
+{
 
     [SerializeField] private float speedBonusValue = 10f;
     [SerializeField] private int bonusDuration = 3;
