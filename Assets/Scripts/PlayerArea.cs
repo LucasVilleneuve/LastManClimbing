@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 
 public class PlayerArea : MonoBehaviour
 {
-    private GameObject playerMap;
+    private TilemapsManager playerMap;
     private float leftBound;
     private float rightBound;
     private bool enablePlayerArea = true;
@@ -43,16 +43,25 @@ public class PlayerArea : MonoBehaviour
 
             if (transform.position.x > startX && transform.position.x < endX)
             {
-                this.playerMap = map;
+                this.playerMap = tilemap;
                 this.leftBound = startX + CELL_SIZE + playerRenderer.bounds.size.x / 2;
                 this.rightBound = endX - CELL_SIZE - playerRenderer.bounds.size.x / 2;
             }
         }
     }
 
-    public GameObject GetPlayerMap()
+    public TilemapsManager GetPlayerMap()
     {
         return (this.playerMap);
+    }
+
+    public Bounds GetPlayerMapBounds()
+    {
+        float width = this.rightBound - this.leftBound;
+        Vector3 center = new Vector3(this.leftBound + (width / 2), 0, 0);
+        Vector3 size = new Vector3(width, 0, 0);
+
+        return (new Bounds(center, size));
     }
 
     public void EnablePlayerArea(bool enable)

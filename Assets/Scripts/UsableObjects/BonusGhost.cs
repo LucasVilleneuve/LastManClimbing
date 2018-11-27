@@ -43,8 +43,7 @@ public class BonusGhost : CollectableObject
 
     void TeleportPlayerOutsideBloc(GameObject entity)
     {
-        GameObject playerMap = entity.GetComponent<PlayerArea>().GetPlayerMap();
-        TilemapsManager map = playerMap.GetComponent<TilemapsManager>();
+        TilemapsManager map = entity.GetComponent<PlayerArea>().GetPlayerMap();
         Transform playerTransform = entity.GetComponent<Transform>();
         
         while (!map.CellIsEmpty(playerTransform.position))

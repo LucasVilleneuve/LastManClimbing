@@ -5,8 +5,9 @@ using UnityEngine;
 public class TrapFallingRocks : CollectableObject {
 
     public GameObject fallingRockPrefab = null;
+    [SerializeField] private int fallingRocksNumber = 2;
 
-	void Start () {
+    void Start () {
         this.actionOnTriggerEnter = InstantiateFallingRock;
     }
 	
@@ -18,7 +19,8 @@ public class TrapFallingRocks : CollectableObject {
     {
         Vector3 rockPosition;
         Vector3 cameraPosition = Camera.main.transform.position;
-        float fallingRockHeight = fallingRockPrefab.GetComponent<SpriteRenderer>().bounds.size.y;
+        Bounds fallingRockBounds = fallingRockPrefab.GetComponent<SpriteRenderer>().bounds;
+        float topCameraPosition = cameraPosition.y + Camera.main.orthographicSize + fallingRockBounds.size.y;
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         GameObject tmp;
 
@@ -26,16 +28,17 @@ public class TrapFallingRocks : CollectableObject {
         {
             if (player != entity)
             {
-                //rockPosition = player.transform.position;
-                //rockPosition.y = cameraPosition.y + Camera.main.orthographicSize + fallingRockHeight;
-                for (ushort i = 0; i<2; ++i)
+                Bounds bounds = player.GetComponent<PlayerArea>().GetPlayerMapBounds();
+
+                for (ushort i = 0; i < fallingRocksNumber; i++)
                 {
-                    rockPosition = player.transform.position;
-                    rockPosition.y = cameraPosition.y + Camera.main.orthographicSize + fallingRockHeight;
+                    float newScale = Random.Range(0.5f, 1.0f);
                     print("spawning rock");
-                    rockPosition.x += Random.Range(-10f, 10.0f);
+                    rockPosition = new Vector3(bounds.min.x, topCameraPosition, 0);
+                    rockPosition.x += Random.Range(fallingRockBounds.size.x / 2, bounds.size.x - (fallingRockBounds.size.x / 2));
+                    rockPosition.y += Random.Range(0, fallingRockBounds.size.y * 2);
                     tmp = Instantiate(this.fallingRockPrefab, rockPosition, Quaternion.identity);
-                    tmp.transform.localScale = new Vector3(Random.Range(0.75f, 2.5f), Random.Range(0.75f, 2.5f), 0);
+                    //tmp.transform.localScale = new Vector3(newScale, newScale, 0); // TODO Scale create an issue with the material
                 }
             }
         }
