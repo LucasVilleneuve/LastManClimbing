@@ -2,7 +2,6 @@
 
 public class CeilingManager : MonoBehaviour
 {
-    private float freezeSpeed = 0;
     private CameraMovement cam;
 
     private void Start()
@@ -14,7 +13,7 @@ public class CeilingManager : MonoBehaviour
     {
         if (entity.tag == "Player")
         {
-            cam.PlayNextWave();
+            cam.SpeedUp();
         }
     }
 
