@@ -1,13 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using TMPro;
 
 public class CameraMovement : MonoBehaviour
 {
-    [SerializeField] private float[] wavesSpeed = { 70.0f, 80.0f, 90.0f, 100.0f, 105.0f, 110.0f, 115.0f, 120.0f, 125.0f, 150.0f };
-    [SerializeField] private float waveLength = 20.0f;
+    [SerializeField] private float[] speedUpLevels = { 70.0f, 80.0f, 90.0f, 100.0f, 105.0f, 110.0f, 115.0f, 120.0f, 125.0f, 150.0f };
+    [SerializeField] private float levelLength = 20.0f;
     [SerializeField] private float timeBeforeStarting = 3.0f;
-    [SerializeField] private GameObject textNextWave;
-    [SerializeField] private GameObject textCounterWave;
+    [SerializeField] private GameObject textSpeedUpLevel;
+    [SerializeField] private GameObject textCounterSpeedUp;
+    [SerializeField] private GameObject textStartCounter;
 
     // Debug
     [SerializeField] private float cameraSpeed;
@@ -15,16 +17,18 @@ public class CameraMovement : MonoBehaviour
     private bool cameraMovementEnable = true;
     private int wave = 0;
     private float timeLeft = 0;
-    private TextMeshProUGUI textMPCounterWave;
+    private TextMeshProUGUI textMPCounterSU;
+    private TextMeshProUGUI textMPStartCounter;
     private float coolDown = 0.0f;
 
     private void Start()
     {
-        textNextWave.SetActive(false);
-        textMPCounterWave = textCounterWave.GetComponent<TextMeshProUGUI>();
+        textSpeedUpLevel.SetActive(false);
+        textMPCounterSU = textCounterSpeedUp.GetComponent<TextMeshProUGUI>();
+        textMPStartCounter = textStartCounter.GetComponent<TextMeshProUGUI>();
 
-        timeLeft = waveLength;
-        ActivateNextWave();
+        timeLeft = levelLength;
+        TriggerSpeedUp();
     }
 
     public void SetCameraSpeed(float newSpeed)
@@ -44,6 +48,17 @@ public class CameraMovement : MonoBehaviour
             if (timeBeforeStarting > 0.0f)
             {
                 timeBeforeStarting -= Time.deltaTime;
+
+                int timeCounter = (int)Mathf.Ceil(timeBeforeStarting);
+
+                if (timeCounter > 0)
+                {
+                    textMPStartCounter.text = timeCounter.ToString();
+                }
+                else
+                {
+                    StartCoroutine(ShowGoOnStartCounter(1.0f));
+                }
             }
             else
             {
@@ -51,8 +66,8 @@ public class CameraMovement : MonoBehaviour
 
                 if (timeLeft < 0.0f)
                 {
-                    ActivateNextWave();
-                    timeLeft = waveLength;
+                    TriggerSpeedUp();
+                    timeLeft = levelLength;
                 }
 
                 transform.position = transform.position + new Vector3(0, cameraSpeed / 1000.0f, 0);
@@ -69,27 +84,27 @@ public class CameraMovement : MonoBehaviour
         {
             if (timeLeft < 3.0f)
             {
-                textNextWave.SetActive(true);
-                textMPCounterWave.text = Mathf.Ceil(timeLeft).ToString();
+                textSpeedUpLevel.SetActive(true);
+                textMPCounterSU.text = Mathf.Ceil(timeLeft).ToString();
             }
         }
         else
         {
             // Deactivate
-            textNextWave.SetActive(false);
-            textMPCounterWave.text = "";
+            textSpeedUpLevel.SetActive(false);
+            textMPCounterSU.text = "";
         }
-        string textCounter = textMPCounterWave.text;
+        string textCounter = textMPCounterSU.text;
     }
 
-    private void ActivateNextWave()
+    private void TriggerSpeedUp()
     {
-        if (wavesSpeed.Length == 0 || wave > wavesSpeed.Length)
+        if (speedUpLevels.Length == 0 || wave >= speedUpLevels.Length)
         {
             return; // No more waves to do
         }
 
-        cameraSpeed = wavesSpeed[wave];
+        cameraSpeed = speedUpLevels[wave];
         ++wave;
     }
 
@@ -98,7 +113,7 @@ public class CameraMovement : MonoBehaviour
         cameraMovementEnable = enable;
     }
 
-    public void PlayNextWave()
+    public void SpeedUp()
     {
         if (coolDown > 0.0f) // Cooldown not over
             return;
@@ -109,5 +124,12 @@ public class CameraMovement : MonoBehaviour
         }
 
         coolDown = 5.0f; // Set cooldown to not spam PlayNextWave
+    }
+
+    private IEnumerator ShowGoOnStartCounter(float timeToShow)
+    {
+        textMPStartCounter.text = "GO";
+        yield return new WaitForSeconds(timeToShow);
+        textMPStartCounter.text = "";
     }
 }
