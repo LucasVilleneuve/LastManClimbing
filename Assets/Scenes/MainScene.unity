@@ -1639,7 +1639,7 @@ Prefab:
     - target: {fileID: 114164004624096340, guid: c4dce00db6ce40646a2a377b86643adc,
         type: 2}
       propertyPath: fallingRocksNumber
-      value: 2
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4dce00db6ce40646a2a377b86643adc, type: 2}

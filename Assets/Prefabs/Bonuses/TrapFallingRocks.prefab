@@ -81,6 +81,9 @@ MonoBehaviour:
   description: Falling rocks
   fallingRockPrefab: {fileID: 1972542310177484, guid: f3522be3447d2cd4fbb8bd5efd7d5b59,
     type: 2}
+  fallingRocksNumber: 2
+  fallingRocksMaxScale: 2
+  fallingRocksMinScale: 1
 --- !u!212 &212340193512105256
 SpriteRenderer:
   m_ObjectHideFlags: 1
