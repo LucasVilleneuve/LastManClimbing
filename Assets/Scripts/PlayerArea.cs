@@ -27,13 +27,22 @@ public class PlayerArea : MonoBehaviour
             {
                 transform.position = new Vector3(this.rightBound, transform.position.y, transform.position.z);
             }
+
+            float playerHeight = gameObject.GetComponent<SpriteRenderer>().bounds.size.y;
+            Vector3 cameraPosition = Camera.main.transform.position;
+            float topCameraPosition = cameraPosition.y + Camera.main.orthographicSize;
+
+            if ((transform.position.y + playerHeight / 2) > topCameraPosition)
+            {
+                transform.position = new Vector3(transform.position.x, topCameraPosition - playerHeight / 2, transform.position.z);
+            }
         }
 	}
 
     void FoundPlayerMap()
     {
         GameObject[] maps = GameObject.FindGameObjectsWithTag("Map");
-        Renderer playerRenderer = gameObject.GetComponent<Renderer>();
+        SpriteRenderer playerRenderer = gameObject.GetComponent<SpriteRenderer>();
 
         foreach (GameObject map in maps)
         {
