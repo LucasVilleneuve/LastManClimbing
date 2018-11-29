@@ -15,8 +15,32 @@ public class Lava : MonoBehaviour
         {
             string pName = collider.gameObject.name;
             Debug.Log(pName + " touched lava floor");
-            gameRules.UpdateNbPlayersAlive(collider.gameObject);
-            collider.gameObject.SetActive(false);
+
+            PlayerMovement player = collider.GetComponent<PlayerMovement>();
+
+            if (!player.Invicible)
+            {
+                this.KillPlayer(collider.gameObject);
+            }
+            else
+            {
+                StartCoroutine(WaitEndOfInvicibility(collider.gameObject));
+            }
         }
+    }
+
+    IEnumerator WaitEndOfInvicibility(GameObject entity)
+    {
+        PlayerMovement player = entity.GetComponent<PlayerMovement>();
+
+        yield return (new WaitUntil(() => !player.Invicible));
+        if (entity.GetComponent<Collider2D>().IsTouching(gameObject.GetComponent<Collider2D>()))
+            this.KillPlayer(entity);
+    }
+
+    void KillPlayer(GameObject player)
+    {
+        gameRules.UpdateNbPlayersAlive(player);
+        player.SetActive(false);
     }
 }

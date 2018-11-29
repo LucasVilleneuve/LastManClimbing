@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     public int dashForce = 1000;
     public Transform jetpackFuel;
     private Animator animator;
+    public bool Invicible { get; set; }
 
     /* Components */
     private Rigidbody2D rb;
@@ -42,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        this.Invicible = false;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         //particleSystem = GetComponentInChildren<ParticleSystem>();
@@ -234,7 +236,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void HitThePlayer()
     {
-        StartCoroutine(PlayerIsWounded());
+        if (!this.Invicible)
+            StartCoroutine(PlayerIsWounded());
     }
 
     private IEnumerator PlayerIsWounded()

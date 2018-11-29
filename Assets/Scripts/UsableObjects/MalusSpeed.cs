@@ -10,11 +10,11 @@ public class MalusSpeed : CollectableObject
 
     void Start()
     {
+        this.type = CollectableObjectType.MALUS;
         this.realtimeBeforeDestruction = this.malusDuration;
         this.actionOnTriggerEnter = GiveBonusToPlayer;
         this.actionBeforeDestruction = ResumeBonusToPlayer;
     }
-
 
     void Update()
     {

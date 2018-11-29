@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class CollectableObject : MonoBehaviour
 {
+    public enum CollectableObjectType
+    {
+        BONUS,
+        MALUS,
+    }
+
     // entity will be the player GameObject.
     protected delegate void Delegate(GameObject entity);
 
@@ -14,6 +20,8 @@ public class CollectableObject : MonoBehaviour
     // Time in seconds before destroy gameObject after OnTriggerEnter2D call
     // Set to -1 to avoid the destruction.
     protected int realtimeBeforeDestruction = 0;
+
+    protected CollectableObjectType type = CollectableObjectType.BONUS;
 
     [SerializeField] public string description = "";
 
@@ -50,7 +58,14 @@ public class CollectableObject : MonoBehaviour
 
     public void UseEffect(GameObject entity)
     {
-        if (this.actionOnTriggerEnter != null)
+        if (this.actionOnTriggerEnter != null && this.EffectIsUsableOnTheTarget(entity))
             this.actionOnTriggerEnter(entity);
+    }
+
+    bool EffectIsUsableOnTheTarget(GameObject entity)
+    {
+        PlayerMovement target = entity.GetComponent<PlayerMovement>();
+
+        return (!(this.type == CollectableObjectType.MALUS && target.Invicible));
     }
 }
