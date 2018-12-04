@@ -588,6 +588,12 @@ Prefab:
       propertyPath: deathSound
       value: 
       objectReference: {fileID: 730765099}
+    - target: {fileID: 114128726575793934, guid: fbdddacfc47c33d42b8d347b4815431f,
+        type: 2}
+      propertyPath: playerPrefab
+      value: 
+      objectReference: {fileID: 1373431469202924, guid: 1b2da1de6c495e8419433123ca072aa6,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fbdddacfc47c33d42b8d347b4815431f, type: 2}
   m_IsPrefabAsset: 0
@@ -997,7 +1003,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameRules: {fileID: 1052753895}
-  DebugEnable: 1
+  DebugEnableDeath: 1
 --- !u!61 &730765097
 BoxCollider2D:
   m_ObjectHideFlags: 0
