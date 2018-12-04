@@ -11,6 +11,21 @@ public static class ExtensionMethods
     }
 }
 
+public class SpeedModifier
+{
+    public SpeedModifier(float val, float time) { value = val; timeRemaining = time; }
+    private float timeRemaining;
+
+    public float value;
+
+    public bool updateTimeRemaining()
+    {
+        timeRemaining -= Time.deltaTime;
+        if (timeRemaining <= 0) { return false; }
+        return true;
+    }
+}
+
 public class PlayerMovement : MonoBehaviour
 {
     /* Serialized fields */
@@ -18,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] [Range(0, 50)] public float climbingSpeed = 20.0f;
     [SerializeField] [Range(0, 100)] public float jetpackVAcceleration = 25.0f;
     [SerializeField] [Range(0, 100)] public float jetpackHAcceleration = 25.0f;
+    [SerializeField] public List<SpeedModifier> speedModifiers = new List<SpeedModifier>();
     [SerializeField] public float maxJetpackVerticalVelocity = 10.0f; // Max vertical velocity while using jet pack.
     [SerializeField] public float maxJetpackHorizontalVelocity = 20.0f; // Max horizontal velocity while using jet pack.
     [SerializeField] public float xInitialPosition;
@@ -60,8 +76,30 @@ public class PlayerMovement : MonoBehaviour
     {
     }
 
+    private void ManageSpeedModifiers()
+    {
+        for (int i = speedModifiers.Count - 1; i >= 0; i--)
+        {
+            if (speedModifiers[i].updateTimeRemaining() == false)
+            {
+                AddSpeedValue(-speedModifiers[i].value);
+                speedModifiers.RemoveAt(i);
+                Debug.Log("Removing speed modifier. size: " + climbingSpeed);
+            }
+        }
+
+        foreach (SpeedModifier it in speedModifiers)
+        {
+            if (it.updateTimeRemaining() == false)
+            {
+
+            }
+        }
+    }
+
     private void Update()
     {
+        ManageSpeedModifiers();
         if (!playerControlsEnabled)
             return;
 
@@ -182,6 +220,13 @@ public class PlayerMovement : MonoBehaviour
         bool enoughFuel = (fuel.GetFuelLeft() > 0.0f);
 
         return input && enoughFuel;
+    }
+
+    public void addSpeedModifier(SpeedModifier mod)
+    {
+        speedModifiers.Add(mod);
+        AddSpeedValue(mod.value);
+        Debug.Log("Adding speed modifier. size: " + +climbingSpeed);
     }
 
     public void EnablePlayerControls(bool enable)
