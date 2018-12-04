@@ -88,7 +88,6 @@ public class GameRules : MonoBehaviour
     {
         // Spawn Player
         GameObject player = Instantiate(playerPrefab, posPlayer, Quaternion.identity);
-        player.GetComponent<PlayerMovement>().xInitialPosition = posPlayer.x;
         player.name = "Player " + playerNb;
         player.GetComponent<PlayerMovement>().playerId = playerNb;
         players.Add(player);

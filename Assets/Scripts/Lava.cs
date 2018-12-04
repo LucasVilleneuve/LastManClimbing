@@ -5,11 +5,11 @@ using UnityEngine;
 public class Lava : MonoBehaviour
 {
     [SerializeField] private GameRules gameRules;
-    [SerializeField] private bool DebugEnableDeath = true;
+    [SerializeField] private bool DebugEnable = true;
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (!DebugEnableDeath) return;
+        if (!DebugEnable) return;
 
         if (collider.tag.Equals("Player"))
         {
@@ -29,7 +29,7 @@ public class Lava : MonoBehaviour
         }
     }
 
-    private IEnumerator WaitEndOfInvicibility(GameObject entity)
+    IEnumerator WaitEndOfInvicibility(GameObject entity)
     {
         PlayerMovement player = entity.GetComponent<PlayerMovement>();
 
@@ -38,7 +38,7 @@ public class Lava : MonoBehaviour
             this.KillPlayer(entity);
     }
 
-    private void KillPlayer(GameObject player)
+    void KillPlayer(GameObject player)
     {
         gameRules.UpdateNbPlayersAlive(player);
         player.SetActive(false);
