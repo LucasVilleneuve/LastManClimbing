@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] [Range(0, 100)] public float jetpackHAcceleration = 25.0f;
     [SerializeField] public float maxJetpackVerticalVelocity = 10.0f; // Max vertical velocity while using jet pack.
     [SerializeField] public float maxJetpackHorizontalVelocity = 20.0f; // Max horizontal velocity while using jet pack.
+    [SerializeField] public float xInitialPosition;
     [SerializeField] private float gravityScale = 3.0f;
     [SerializeField] private Animator jetpackAnimator;
     [SerializeField] private float fuelConsumedByTick = 0.0025f;
