@@ -14,7 +14,6 @@ public class BonusSpeed : CollectableObject
         this.actionBeforeDestruction = ResumeBonusToPlayer;
     }
 	
-	
 	void Update () {
 		
 	}

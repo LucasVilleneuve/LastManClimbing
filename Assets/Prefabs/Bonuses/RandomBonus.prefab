@@ -84,6 +84,7 @@ MonoBehaviour:
   - {fileID: 1602349654794912, guid: d2fde85e98be4914f881d84135618454, type: 2}
   - {fileID: 1077835479640390, guid: 268cba683bbd6c4429baa49a45f35faf, type: 2}
   - {fileID: 1054693677672688, guid: 2658cd703cf993b42903cb009c168ca0, type: 2}
+  - {fileID: 1671604035375988, guid: 1bf89505c352ce044ae8259c44267474, type: 2}
   animationPrefab: {fileID: 1889934606081272, guid: 0fa683b2d5255964e903cea0feab8c9c,
     type: 2}
 --- !u!212 &212088985188370862
