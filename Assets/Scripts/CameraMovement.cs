@@ -20,6 +20,7 @@ public class CameraMovement : MonoBehaviour
     private TextMeshProUGUI textMPCounterSU;
     private TextMeshProUGUI textMPStartCounter;
     private float coolDown = 0.0f;
+    private bool started = false;
 
     private void Start()
     {
@@ -45,32 +46,35 @@ public class CameraMovement : MonoBehaviour
     {
         if (cameraMovementEnable)
         {
-            if (timeBeforeStarting > 0.0f)
+            if (started)
             {
-                timeBeforeStarting -= Time.deltaTime;
-
-                int timeCounter = (int)Mathf.Ceil(timeBeforeStarting);
-
-                if (timeCounter > 0)
+                if (timeBeforeStarting > 0.0f)
                 {
-                    textMPStartCounter.text = timeCounter.ToString();
+                    timeBeforeStarting -= Time.deltaTime;
+
+                    int timeCounter = (int)Mathf.Ceil(timeBeforeStarting);
+
+                    if (timeCounter > 0)
+                    {
+                        textMPStartCounter.text = timeCounter.ToString();
+                    }
+                    else
+                    {
+                        StartCoroutine(ShowGoOnStartCounter(1.0f));
+                    }
                 }
                 else
                 {
-                    StartCoroutine(ShowGoOnStartCounter(1.0f));
-                }
-            }
-            else
-            {
-                UpdateTime();
+                    UpdateTime();
 
-                if (timeLeft < 0.0f)
-                {
-                    TriggerSpeedUp();
-                    timeLeft = levelLength;
-                }
+                    if (timeLeft < 0.0f)
+                    {
+                        TriggerSpeedUp();
+                        timeLeft = levelLength;
+                    }
 
-                transform.position = transform.position + new Vector3(0, cameraSpeed / 1000.0f, 0);
+                    transform.position = transform.position + new Vector3(0, cameraSpeed / 1000.0f, 0);
+                }
             }
         }
     }
@@ -131,5 +135,10 @@ public class CameraMovement : MonoBehaviour
         textMPStartCounter.text = "GO";
         yield return new WaitForSeconds(timeToShow);
         textMPStartCounter.text = "";
+    }
+
+    public void StartMove()
+    {
+        started = true;
     }
 }
