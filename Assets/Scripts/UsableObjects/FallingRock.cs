@@ -9,8 +9,8 @@ public class FallingRock : MonoBehaviour {
 	}
 	
 	void Update () {
-		
-	}
+        this.RockDestruction();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -20,5 +20,14 @@ public class FallingRock : MonoBehaviour {
 
             playerMovement.HitThePlayer();
         }
+    }
+
+    private void RockDestruction()
+    {
+        Vector3 cameraPosition = Camera.main.transform.position;
+        float bottomCameraPosition = cameraPosition.y - Camera.main.orthographicSize - GetComponent<SpriteRenderer>().bounds.size.y;
+
+        if (transform.position.y < bottomCameraPosition)
+            Destroy(gameObject);
     }
 }
