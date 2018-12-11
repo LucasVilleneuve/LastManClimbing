@@ -10,10 +10,13 @@ public class PlayerDrill : MonoBehaviour {
         DIAMOND
     }
 
+    private AudioSource destroyRockSound;
+
     DrillType type;
 
 	void Start ()
     {
+        destroyRockSound = GetComponent<AudioSource>();
         this.type = DrillType.DEFAULT;
     }
 	
@@ -31,6 +34,7 @@ public class PlayerDrill : MonoBehaviour {
     {
         if (this.type == DrillType.DIAMOND && collision.gameObject.tag != "FuelTank")
         {
+            destroyRockSound.Play();
             Destroy(collision.gameObject);
         }
     }
@@ -39,6 +43,7 @@ public class PlayerDrill : MonoBehaviour {
     {
         if (this.type == DrillType.DIAMOND && collision.gameObject.tag == "FallingRock")
         {
+            destroyRockSound.Play();
             Destroy(collision.gameObject);
         }
     }

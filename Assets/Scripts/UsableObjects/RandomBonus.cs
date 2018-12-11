@@ -8,6 +8,7 @@ public class RandomBonus : MonoBehaviour
     [SerializeField] private GameObject[] bonuses;
     [SerializeField] private GameObject animationPrefab;
     private GameObject animationInstance;
+    private AudioSource pickupSound;
     //public float DestroyDuration;
 
     void Start()
@@ -15,6 +16,7 @@ public class RandomBonus : MonoBehaviour
         this.animationInstance = Instantiate(animationPrefab, transform.position, Quaternion.identity);
         this.animationInstance.transform.parent = this.transform;
         this.animationInstance.transform.localScale = new Vector3(3.0f, 3.0f, 3.0f);
+        pickupSound = GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter2D(Collider2D entity)
@@ -53,6 +55,7 @@ public class RandomBonus : MonoBehaviour
     {
         if (tr)
         {
+            pickupSound.Play();
             tr.parent = null;
             Destroy(tr.gameObject, tr.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
         }
