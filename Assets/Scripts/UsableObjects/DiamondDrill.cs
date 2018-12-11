@@ -25,7 +25,7 @@ public class DiamondDrill : CollectableObject
 
         drill.GetComponent<SpriteRenderer>().enabled = true;
         drill.GetComponent<BoxCollider2D>().enabled = true;
-        drillManager.setDrillType(PlayerDrill.DrillType.DIAMOND);
+        drillManager.SetDrillType(PlayerDrill.DrillType.DIAMOND);
     }
 
     void DisableDiamondDrill(GameObject entity)
@@ -35,6 +35,6 @@ public class DiamondDrill : CollectableObject
 
         drill.GetComponent<SpriteRenderer>().enabled = false;
         drill.GetComponent<BoxCollider2D>().enabled = false;
-        drillManager.setDrillType(PlayerDrill.DrillType.DEFAULT);
+        drillManager.SetDrillType(PlayerDrill.DrillType.DEFAULT);
     }
 }

@@ -22,14 +22,22 @@ public class PlayerDrill : MonoBehaviour {
         
 	}
 
-    public void setDrillType(DrillType type)
+    public void SetDrillType(DrillType type)
     {
         this.type = type;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (this.type == DrillType.DIAMOND)
+        if (this.type == DrillType.DIAMOND && collision.gameObject.tag != "FuelTank")
+        {
+            Destroy(collision.gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (this.type == DrillType.DIAMOND && collision.gameObject.tag == "FallingRock")
         {
             Destroy(collision.gameObject);
         }
