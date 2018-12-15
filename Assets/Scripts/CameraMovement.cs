@@ -21,9 +21,11 @@ public class CameraMovement : MonoBehaviour
     private TextMeshProUGUI textMPStartCounter;
     private float coolDown = 0.0f;
     private bool started = false;
+    private GameObject lavaGameObject;
 
     private void Start()
     {
+        lavaGameObject = GameObject.FindGameObjectWithTag("Lava");
         textSpeedUpLevel.SetActive(false);
         textMPCounterSU = textCounterSpeedUp.GetComponent<TextMeshProUGUI>();
         textMPStartCounter = textStartCounter.GetComponent<TextMeshProUGUI>();
@@ -53,7 +55,7 @@ public class CameraMovement : MonoBehaviour
                     timeBeforeStarting -= Time.deltaTime;
 
                     int timeCounter = (int)Mathf.Ceil(timeBeforeStarting);
-
+                    lavaGameObject.transform.position += new Vector3(0, Time.deltaTime, 0);
                     if (timeCounter > 0)
                     {
                         textMPStartCounter.text = timeCounter.ToString();

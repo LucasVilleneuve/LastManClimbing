@@ -3886,7 +3886,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1634549972512654}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.27315426, y: -17.019566, z: 0}
+  m_LocalPosition: {x: 30.924068, y: 51.316696, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4349821803594284}
@@ -7354,6 +7354,7 @@ MonoBehaviour:
   torchLight: {fileID: 108332231690869186}
   flameTransform: {fileID: 4650397481476654}
   extend: 5
+  flameAnimator: {fileID: 95254446772239176}
 --- !u!114 &114303689097688648
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7369,6 +7370,7 @@ MonoBehaviour:
   torchLight: {fileID: 108792642125108772}
   flameTransform: {fileID: 4122244410517412}
   extend: 5
+  flameAnimator: {fileID: 95737327835154252}
 --- !u!114 &114410474071722896
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7395,6 +7397,7 @@ MonoBehaviour:
   torchLight: {fileID: 108900260407275960}
   flameTransform: {fileID: 4570677974283098}
   extend: 5
+  flameAnimator: {fileID: 95591703522948250}
 --- !u!114 &114691111875615018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7445,6 +7448,7 @@ MonoBehaviour:
   torchLight: {fileID: 108122537525258310}
   flameTransform: {fileID: 4225298958855274}
   extend: 5
+  flameAnimator: {fileID: 95864200378030068}
 --- !u!212 &212008128736862208
 SpriteRenderer:
   m_ObjectHideFlags: 1

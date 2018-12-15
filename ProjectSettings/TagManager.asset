@@ -8,6 +8,7 @@ TagManager:
   - FuelTank
   - Torch
   - FallingRock
+  - Lava
   layers:
   - Default
   - TransparentFX

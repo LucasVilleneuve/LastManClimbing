@@ -9,6 +9,12 @@ public class TorchScript : MonoBehaviour {
     public Transform flameTransform;
     [SerializeField] private int extend = 5;
 
+    private void Start()
+    {
+        flameTransform.gameObject.GetComponent<Animator>().
+            Play("1", -1, Random.Range(0.0f, 1.0f));
+    }
+
     private IEnumerator TorchDown()
     {
         for (int i = 14 * extend; i > 0; i--)

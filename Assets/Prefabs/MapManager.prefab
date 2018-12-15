@@ -53,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chunkHeight: 48
   chunkWidth: 20
-  starter: {fileID: 1486372453369176, guid: 4d2d7615f2a99394283d9393e688719d, type: 2}
+  starter: {fileID: 1195263817647578, guid: 88c36eab5e5f1be41944be3563ee193a, type: 2}
   maps:
   - {fileID: 1680882577344504, guid: 639839f6199803b419374f0282217d68, type: 2}
   - {fileID: 1126860122453312, guid: fa3d777ed3380e14b91d786431688056, type: 2}
