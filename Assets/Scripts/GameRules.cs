@@ -80,6 +80,7 @@ public class GameRules : MonoBehaviour
             int nb = i - 1;
             float posx = startPos + 10 + spacing * nb + 20 * nb;
             float posxMap = posx - 10;
+            Debug.Log(posx);
             SpawnPlayerAndMap(i, new Vector3(posx, 5f, 0), new Vector3(posxMap, -1, 2), seed);
         }
     }
