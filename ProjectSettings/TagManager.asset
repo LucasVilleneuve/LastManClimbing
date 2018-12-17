@@ -9,6 +9,7 @@ TagManager:
   - Torch
   - FallingRock
   - Lava
+  - StartArea
   layers:
   - Default
   - TransparentFX

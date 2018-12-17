@@ -13,7 +13,6 @@ public class StartArea : MonoBehaviour
             nbPlayerReady++;
         else
             nbPlayerReady--;
-        Debug.Log(nbPlayerReady);
         if (MainMenuManager.NbPlayers == nbPlayerReady)
             cam.StartMove();
     }
