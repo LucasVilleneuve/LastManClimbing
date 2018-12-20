@@ -13,7 +13,11 @@ public static class ExtensionMethods
 
 public class SpeedModifier
 {
-    public SpeedModifier(float val, float time) { value = val; timeRemaining = time; }
+    public SpeedModifier(float val, float time)
+    {
+        value = val; timeRemaining = time;
+    }
+
     private float timeRemaining;
 
     public float value;
@@ -43,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float fuelRestoredByTick = 0.0025f;
     [SerializeField] private float cooldownDash = 3.0f;
     [SerializeField] private float dashForce = 1000;
-    [SerializeField] private FuelGauge fuel;
+    [SerializeField] public FuelGauge fuel;
 
     public bool Invicible { get; set; }
 
@@ -92,7 +96,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if (it.updateTimeRemaining() == false)
             {
-
             }
         }
     }
