@@ -34,7 +34,7 @@ public class Lava : MonoBehaviour
         PlayerMovement player = entity.GetComponent<PlayerMovement>();
 
         yield return (new WaitUntil(() => !player.Invicible));
-        if (entity.GetComponent<Collider2D>().IsTouching(gameObject.GetComponent<Collider2D>()))
+        if (entity.transform.position.y < gameObject.transform.position.y)
             this.KillPlayer(entity);
     }
 
